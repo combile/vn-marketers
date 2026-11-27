@@ -2,7 +2,9 @@
 
 LUXBANO(리모라사이언스) 베트남 시장진출 마케팅 프로젝트 작업 저장소입니다.
 
-> ⚠️ 2027년 1~2월 출시 예정 제품의 디자인·정보가 포함되어 있습니다. 경진대회 외 공유 금지 — 저장소를 Public으로 전환하지 마세요.
+> ⚠️ 2027년 1~2월 출시 예정 제품의 디자인·정보가 포함되어 있습니다. 경진대회 목적 외 사용·재배포를 금지합니다.
+
+**Live demo:** https://combile.github.io/vn-marketers/ (GitHub Pages, `main` 브랜치 루트에서 배포)
 
 ## skin-lab/ — LUXBANO AI Skin Lab (목업)
 
