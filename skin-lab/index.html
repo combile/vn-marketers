@@ -1,0 +1,1195 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0E4A4F">
+<title>LUXBANO AI Skin Lab</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800&family=Cormorant+Garamond:wght@500;600&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
+<style>
+:root{
+  --bg:#F3ECE1; --surface:#FFFDF8; --glass:rgba(255,253,248,.82); --glass2:rgba(14,74,79,.09); --gb:rgba(14,74,79,.12);
+  --text:#12363A; --muted:#677B79; --heading:#0E4A4F; --accent:#0E4A4F; --on-accent:#FBF6EC;
+  --gold:#B08A45; --gold-soft:#F1E5CC; --sel:rgba(14,74,79,.06);
+  --good:#16676D; --mid:#A8802F; --low:#C0633A;
+  --panel1:#11535A; --panel2:#0A3539; --track:rgba(14,74,79,.12);
+  --ov-bg:rgba(255,253,248,.95); --ov-text:#12363A;
+  --header:rgba(243,236,225,.86); --dot:rgba(14,74,79,.07);
+  --g1:#0E4A4F; --g2:#B08A45;
+  --shadow:0 12px 30px rgba(14,74,79,.10);
+  --r:20px; --mono:"Space Grotesk",ui-monospace,monospace; --serif:"Cormorant Garamond",serif;
+}
+[data-theme="dark"]{
+  --bg:#082629; --surface:#0E373C; --glass:rgba(255,253,248,.06); --glass2:rgba(255,253,248,.12); --gb:rgba(244,236,225,.14);
+  --text:#F3ECE1; --muted:#A3B8B5; --heading:#F3ECE1; --accent:#DDBF82; --on-accent:#0A2C30;
+  --gold:#DDBF82; --gold-soft:rgba(221,191,130,.14); --sel:rgba(221,191,130,.10);
+  --good:#8FD2C6; --mid:#E0BE73; --low:#EE9A70;
+  --panel1:#0F4A50; --panel2:#05201F; --track:rgba(255,255,255,.12);
+  --ov-bg:rgba(8,38,41,.9); --ov-text:#F3ECE1;
+  --header:rgba(8,38,41,.86); --dot:rgba(244,236,225,.05);
+  --g1:#F3ECE1; --g2:#DDBF82;
+  --shadow:0 12px 30px rgba(0,0,0,.3);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--bg);color:var(--text)}
+body{font-family:"Be Vietnam Pro","Apple SD Gothic Neo","Noto Sans KR",system-ui,sans-serif;font-size:15.5px;line-height:1.55;-webkit-font-smoothing:antialiased;min-height:100vh;transition:background .3s}
+button,input,a{font:inherit;color:inherit}
+a{text-decoration:none}
+.app{max-width:480px;margin:0 auto;min-height:100vh;position:relative;overflow:hidden;
+  background:
+    radial-gradient(90% 45% at 100% 0%, rgba(176,138,69,.16), transparent 60%),
+    radial-gradient(80% 40% at 0% 32%, rgba(14,74,79,.08), transparent 60%),
+    var(--bg)}
+.app::before{content:"";position:absolute;inset:0;pointer-events:none;
+  background-image:radial-gradient(var(--dot) 1px, transparent 1px);background-size:22px 22px;
+  -webkit-mask-image:linear-gradient(180deg,#000,transparent 45%);mask-image:linear-gradient(180deg,#000,transparent 45%)}
+header{position:sticky;top:0;z-index:30;display:flex;align-items:center;justify-content:space-between;padding:12px 16px;background:var(--header);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--gb)}
+.logo{font-family:var(--serif);font-size:25px;letter-spacing:.08em;color:var(--heading);font-weight:600;line-height:1}
+.logo small{display:block;font-family:"Be Vietnam Pro",sans-serif;font-size:8px;letter-spacing:.32em;color:var(--gold);margin-top:4px;font-weight:600}
+.hdr-r{display:flex;gap:8px;align-items:center}
+.themebtn{width:32px;height:32px;border-radius:50%;border:1px solid var(--gb);background:var(--glass);cursor:pointer;display:grid;place-items:center;font-size:14px;color:var(--heading)}
+.langs{display:flex;gap:2px;background:var(--glass);border:1px solid var(--gb);border-radius:999px;padding:3px}
+.langs button{border:0;background:transparent;padding:5px 10px;border-radius:999px;font-size:11.5px;font-weight:700;color:var(--muted);cursor:pointer;font-family:var(--mono)}
+.langs button.on{background:var(--accent);color:var(--on-accent)}
+.booth-badge{position:absolute;left:50%;transform:translateX(-50%);top:60px;background:var(--gold);color:#fff;font-size:10.5px;font-weight:700;padding:3px 12px;border-radius:0 0 10px 10px;letter-spacing:.12em;z-index:29;font-family:var(--mono)}
+.screen{display:none;padding:20px 16px 32px;position:relative;z-index:1;animation:fade .4s ease}
+.screen.on{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.kicker{display:inline-flex;align-items:center;gap:8px;font-size:11px;letter-spacing:.24em;font-weight:600;color:var(--gold);text-transform:uppercase}
+.kicker::before{content:"";width:18px;height:1px;background:var(--gold)}
+h1{font-size:29px;line-height:1.25;font-weight:800;letter-spacing:-.02em;color:var(--heading)}
+.grad{background:linear-gradient(90deg,var(--g1),var(--g2));-webkit-background-clip:text;background-clip:text;color:transparent}
+h2{font-size:22px;line-height:1.3;font-weight:700;letter-spacing:-.01em;color:var(--heading)}
+h2 .grad{font-family:var(--serif);font-size:32px;font-weight:600;letter-spacing:.02em}
+h3{font-size:15px;font-weight:600}
+.sub{color:var(--muted);margin-top:8px;font-size:14.5px}
+.glass{background:var(--glass);border:1px solid var(--gb);border-radius:var(--r);box-shadow:var(--shadow);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+.btn{position:relative;display:flex;align-items:center;justify-content:center;gap:8px;width:100%;border:0;border-radius:16px;padding:16px 18px;font-weight:700;font-size:15.5px;cursor:pointer;transition:transform .1s,opacity .2s,box-shadow .2s}
+.btn:active{transform:scale(.98)}
+.btn.primary{background:var(--accent);color:var(--on-accent);box-shadow:0 10px 28px rgba(14,74,79,.25)}
+.btn.gold{background:linear-gradient(135deg,#D6B26D,#AE8742);color:#fff;box-shadow:0 10px 26px rgba(176,138,69,.3)}
+.btn.ghost{background:var(--surface);color:var(--text);border:1px solid var(--gb)}
+.btn.link{background:transparent;color:var(--muted);font-weight:500;font-size:13.5px;padding:10px}
+.btn[disabled]{opacity:.38;pointer-events:none;box-shadow:none}
+.btn .arrow{font-family:var(--mono)}
+.stack>*+*{margin-top:10px}
+.hidden{display:none!important}
+.panel{background:linear-gradient(160deg,var(--panel1),var(--panel2));box-shadow:var(--shadow)}
+.sweep{position:absolute;left:0;right:0;height:90px;top:-90px;background:linear-gradient(180deg,transparent,rgba(244,224,170,.18) 85%,rgba(244,224,170,.85) 99%,transparent);animation:sweep 3.2s cubic-bezier(.5,0,.5,1) infinite;mix-blend-mode:screen;pointer-events:none;z-index:2}
+@keyframes sweep{to{top:100%}}
+
+/* ---------- home ---------- */
+.hero-scan{position:relative;aspect-ratio:1/1.05;border-radius:24px;overflow:hidden}
+.hero-scan img{width:100%;height:100%;object-fit:cover;object-position:50% 28%}
+.brackets{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.chip-float{position:absolute;display:flex;align-items:center;gap:8px;padding:7px 11px;border-radius:12px;background:rgba(255,253,248,.94);color:#12363A;box-shadow:0 6px 18px rgba(0,0,0,.18);font-size:11.5px;font-weight:600;animation:float 4s ease-in-out infinite;z-index:3}
+.chip-float b{font-family:var(--mono);color:#16676D;font-size:14px}
+.chip-float i{width:6px;height:6px;border-radius:50%;background:#16676D}
+.chip-float .lo{color:#C0633A}
+.chip-float i.lo{background:#C0633A}
+@keyframes float{50%{transform:translateY(-6px)}}
+.hero-meta{position:absolute;left:14px;bottom:12px;right:14px;display:flex;justify-content:space-between;font-family:var(--mono);font-size:10px;letter-spacing:.14em;color:rgba(244,236,225,.7);z-index:3}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);margin:16px 0;padding:12px 4px}
+.stats div{text-align:center}
+.stats div+div{border-left:1px solid var(--gb)}
+.stats b{display:block;font-family:var(--serif);font-size:30px;font-weight:600;color:var(--heading);line-height:1.1}
+.stats span{font-size:11.5px;color:var(--muted)}
+.steps3{display:grid;gap:10px;margin:18px 0 6px}
+.step3{display:flex;gap:14px;align-items:center;padding:14px}
+.step3 .num{font-family:var(--serif);font-size:42px;font-weight:600;line-height:1;width:44px;text-align:center;color:var(--gold);flex:none}
+.step3 h3{font-size:14.5px;color:var(--heading)}
+.step3 p{font-size:12.5px;color:var(--muted);line-height:1.45;margin-top:2px}
+.pstrip{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px}
+.pcard{background:linear-gradient(180deg,#FBF7F0,#EDE3D2);border-radius:16px;padding:12px 6px;text-align:center;box-shadow:var(--shadow)}
+.pcard img{height:96px;mix-blend-mode:multiply;display:block;margin:0 auto}
+.pcard b{display:block;font-size:12px;color:#0E4A4F;margin-top:6px;line-height:1.3}
+.pcard span{display:block;font-size:10.5px;color:#7A8A88;margin-top:2px;line-height:1.3}
+.note{font-size:12px;color:var(--muted);display:flex;gap:8px;align-items:flex-start;margin-top:16px;padding:0 4px}
+.note svg{flex:none;margin-top:2px;color:var(--gold)}
+.powered{margin-top:22px;text-align:center;font-size:10px;letter-spacing:.22em;color:var(--muted)}
+.powered b{color:var(--gold);font-weight:600}
+
+/* ---------- camera ---------- */
+.cam{position:relative;width:100%;aspect-ratio:3/4;border-radius:24px;overflow:hidden;margin-top:16px}
+.cam video,.cam canvas{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.flip{transform:scaleX(-1)}
+.cam .placeholder{position:absolute;inset:0;display:grid;place-items:center;text-align:center;padding:24px;font-size:13.5px;color:rgba(244,236,225,.8)}
+.cam .placeholder .pulse{width:74px;height:74px;border-radius:50%;margin:0 auto 14px;border:1.5px solid #E4CB93;display:grid;place-items:center;animation:pulse 2s infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(228,203,147,.5)}100%{box-shadow:0 0 0 22px rgba(228,203,147,0)}}
+.cam .sweep{display:none}
+.cam.camscan .sweep{display:block}
+.hud{position:absolute;left:10px;right:10px;top:10px;display:flex;gap:6px;justify-content:center;z-index:3}
+.hud span{display:flex;align-items:center;gap:6px;font-size:11px;font-weight:600;padding:5px 10px;border-radius:999px;background:rgba(5,32,31,.55);color:#F3ECE1;border:1px solid rgba(244,236,225,.2);backdrop-filter:blur(6px)}
+.hud span em{font-style:normal}
+.hud span i{width:7px;height:7px;border-radius:50%;background:#6d7f7d}
+.hud span.ok{border-color:rgba(228,203,147,.7)}
+.hud span.ok i{background:#E4CB93;box-shadow:0 0 8px #E4CB93}
+.countdown{position:absolute;left:0;right:0;bottom:52px;text-align:center;font-family:var(--mono);font-weight:700;font-size:15px;letter-spacing:.12em;color:#F1DBA6;text-shadow:0 0 12px rgba(228,203,147,.6);z-index:3}
+.cam .hint{position:absolute;left:0;right:0;bottom:14px;text-align:center;color:#F3ECE1;font-size:12.5px;font-weight:500;text-shadow:0 1px 4px rgba(0,0,0,.5);padding:0 16px;z-index:3}
+.tips{display:flex;gap:6px;flex-wrap:wrap;margin-top:12px;justify-content:center}
+.tips span{font-size:11.5px;background:var(--surface);border:1px solid var(--gb);padding:5px 10px;border-radius:999px;color:var(--muted)}
+.warn{color:var(--low);font-size:13px;margin-top:10px;font-weight:500;text-align:center}
+.okmsg{color:var(--good);font-size:13px;margin-top:10px;font-weight:600;text-align:center}
+
+/* ---------- quiz ---------- */
+.segs{display:grid;grid-template-columns:repeat(5,1fr);gap:5px;margin-bottom:18px}
+.segs i{height:4px;border-radius:4px;background:var(--glass2);transition:background .3s}
+.segs i.on{background:var(--accent)}
+.qcount{font-family:var(--mono);font-size:11px;color:var(--gold);letter-spacing:.18em}
+.opts{margin-top:18px;display:grid;gap:10px}
+.opt{display:flex;align-items:center;gap:12px;text-align:left;width:100%;padding:15px 16px;border:1px solid var(--gb);border-radius:16px;background:var(--surface);cursor:pointer;font-size:14.5px;font-weight:500;transition:all .15s;box-shadow:0 2px 8px rgba(14,74,79,.04)}
+.opt .dot{width:20px;height:20px;border-radius:50%;border:1.5px solid var(--gb);flex:none;display:grid;place-items:center}
+.opt.multi .dot{border-radius:6px}
+.opt.sel{border-color:var(--accent);background:var(--sel);box-shadow:0 0 0 1px var(--accent)}
+.opt.sel .dot{background:var(--accent);border-color:var(--accent)}
+.opt.sel .dot::after{content:"";width:8px;height:8px;border-radius:50%;background:var(--on-accent)}
+.opt.multi.sel .dot::after{border-radius:2px}
+.qnav{display:flex;gap:10px;margin-top:22px}
+.qnav .btn{flex:1}
+.qnav .btn.back{flex:0 0 56px;padding:16px 0}
+
+/* ---------- analyzing ---------- */
+.scanview{position:relative;width:78%;margin:14px auto 0;aspect-ratio:3/4;border-radius:24px;overflow:hidden}
+.scanview img,.scanview canvas{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.scanview .sweep{animation-duration:1.6s}
+.pct{text-align:center;margin-top:16px;font-family:var(--serif);font-size:56px;font-weight:600;line-height:1;color:var(--heading)}
+.pct small{font-size:22px;color:var(--gold)}
+.alist{max-width:300px;margin:16px auto 0;font-size:13.5px;color:var(--muted)}
+.alist li{list-style:none;padding:5px 0;display:flex;gap:10px;align-items:center;opacity:.4;transition:opacity .3s}
+.alist li.done{opacity:1;color:var(--text)}
+.alist li::before{content:"";width:16px;height:16px;border-radius:50%;border:1.5px solid var(--gb);flex:none;display:grid;place-items:center;font-size:10px;font-weight:800;box-sizing:border-box}
+.alist li.done::before{content:"✓";background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+
+/* ---------- result ---------- */
+.facecard{position:relative;margin-top:14px;border-radius:24px;overflow:hidden;aspect-ratio:3/4}
+.facecard>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.facecard>svg{position:absolute;inset:0;width:100%;height:100%}
+.facecard .topline{position:absolute;top:12px;left:0;right:0;display:flex;justify-content:center;z-index:2}
+.facecard .topline span{font-size:12px;font-weight:600;padding:6px 14px;border-radius:999px;background:rgba(255,253,248,.94);color:#12363A;box-shadow:0 4px 14px rgba(0,0,0,.15)}
+.facecard .topline b{color:#C0633A;font-family:var(--mono)}
+.facecard .shade{position:absolute;left:0;right:0;bottom:0;height:40%;background:linear-gradient(180deg,transparent,rgba(5,32,31,.75));pointer-events:none}
+.overall{position:absolute;left:12px;right:12px;bottom:12px;display:flex;align-items:center;gap:14px;padding:12px 14px;z-index:2;background:var(--ov-bg);color:var(--ov-text);border-radius:18px;box-shadow:0 8px 24px rgba(0,0,0,.2)}
+.gauge{width:80px;height:80px;flex:none;position:relative}
+.gauge svg{width:100%;height:100%;transform:rotate(-90deg)}
+.gauge .val{position:absolute;inset:0;display:grid;place-items:center;font-family:var(--serif);font-size:32px;font-weight:600;line-height:1;text-align:center}
+.gauge .val small{display:block;font-family:var(--mono);font-size:10px;color:var(--muted);font-weight:500;margin-top:2px}
+.overall .lab{font-size:10.5px;color:var(--muted);letter-spacing:.14em;text-transform:uppercase;font-weight:600}
+.overall .verdict{font-size:20px;font-weight:800;color:var(--good);line-height:1.25}
+.overall .stype{font-size:12.5px;margin-top:2px}
+.callout-ring{transform-origin:center;transform-box:fill-box;animation:ring 2s ease-out infinite}
+@keyframes ring{0%{opacity:.9;transform:scale(.6)}100%{opacity:0;transform:scale(2.2)}}
+.co{opacity:0;animation:coin .5s ease forwards}
+@keyframes coin{to{opacity:1}}
+.icons{display:flex;gap:6px;overflow-x:auto;padding:16px 16px 6px;margin:0 -16px;scrollbar-width:none}
+.icons::-webkit-scrollbar{display:none}
+.ico{flex:none;width:74px;text-align:center}
+.ico .c{width:56px;height:56px;margin:0 auto;border-radius:50%;display:grid;place-items:center;background:var(--surface);border:1.5px solid currentColor;box-shadow:var(--shadow)}
+.ico .c svg{width:24px;height:24px}
+.ico .n{font-size:11px;color:var(--muted);margin-top:6px;line-height:1.25;min-height:28px}
+.ico .s{font-family:var(--mono);font-weight:700;font-size:15px}
+.ico .u{height:3px;border-radius:3px;margin:5px 16px 0;background:currentColor}
+.sp{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+.sp>div{padding:14px}
+.sp .h{font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;font-weight:700}
+.sp .h.g{color:var(--good)} .sp .h.p{color:var(--low)}
+.sp ul{list-style:none;margin-top:8px}
+.sp li{display:flex;justify-content:space-between;gap:6px;font-size:13px;padding:3px 0;font-weight:500}
+.sp li b{font-family:var(--mono)}
+.sec-title{display:flex;justify-content:space-between;align-items:baseline;margin-top:26px}
+.sec-title h3{font-size:16px;color:var(--heading)}
+.sec-title span{font-size:10px;letter-spacing:.18em;color:var(--gold);font-weight:600}
+.mlist{padding:6px 16px 14px;margin-top:10px}
+.mrow{padding-top:12px}
+.mrow .t{display:flex;justify-content:space-between;font-size:13.5px;font-weight:500}
+.mrow .t em{font-style:normal;font-size:12px;color:var(--muted)}
+.mrow .t b{font-family:var(--mono);margin-left:8px}
+.bar{height:6px;border-radius:6px;background:var(--track);margin-top:7px;overflow:hidden}
+.bar i{display:block;height:100%;border-radius:6px;width:0;transition:width 1.1s cubic-bezier(.2,.8,.2,1)}
+.method{font-size:11.5px;color:var(--muted);margin-top:12px;line-height:1.5}
+.best{margin-top:12px;overflow:hidden;position:relative;border-color:rgba(176,138,69,.45)}
+.best .pimg{background:radial-gradient(80% 90% at 50% 100%,#fff,#ECE1CE);display:flex;align-items:flex-end;justify-content:center;height:220px;position:relative}
+.best .pimg img{height:200px;mix-blend-mode:multiply}
+.best .ribbon{position:absolute;top:12px;left:12px;background:#0E4A4F;color:#E4CB93;font-size:10.5px;font-weight:700;padding:5px 10px;border-radius:999px;letter-spacing:.14em}
+.best .mbadge{position:absolute;top:12px;right:12px;width:70px;height:70px;border-radius:50%;background:#0E4A4F;display:grid;place-items:center;text-align:center;border:1.5px solid #D6B26D}
+.best .mbadge b{display:block;font-family:var(--serif);font-size:24px;line-height:1;color:#F1DBA6}
+.best .mbadge small{font-size:9px;letter-spacing:.12em;color:rgba(244,236,225,.7)}
+.best .body{padding:16px}
+.pen{font-size:10.5px;letter-spacing:.16em;color:var(--gold);text-transform:uppercase;font-weight:600}
+.best h3{font-size:19px;margin-top:2px;color:var(--heading)}
+.best p{font-size:13.5px;color:var(--muted);margin-top:6px}
+.why{margin-top:12px;display:grid;gap:6px}
+.why div{display:flex;gap:8px;font-size:13px;align-items:flex-start}
+.why div::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--gold);margin-top:7px;flex:none}
+.buy{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px}
+.buy .btn{padding:13px 10px;font-size:13.5px}
+.btn.shopee{background:var(--surface);color:#D9472A;border:1px solid rgba(217,71,42,.35)}
+.btn.tiktok{background:var(--text);color:var(--bg)}
+.mini{display:flex;gap:12px;align-items:center;padding:12px;margin-top:10px}
+.mini .pi{width:58px;height:72px;border-radius:12px;background:linear-gradient(180deg,#FBF7F0,#EDE3D2);display:flex;align-items:flex-end;justify-content:center;flex:none;overflow:hidden}
+.mini .pi img{height:66px;mix-blend-mode:multiply}
+.mini h3{font-size:14.5px;color:var(--heading)}
+.mini p{font-size:12px;color:var(--muted);line-height:1.4;margin-top:2px}
+.mini .m{margin-left:auto;font-family:var(--serif);font-weight:600;color:var(--gold);font-size:20px;flex:none}
+.routine{margin-top:10px;display:grid;gap:8px}
+.rstep{display:flex;gap:12px;align-items:center;padding:11px 14px}
+.rstep .rn{font-family:var(--serif);font-weight:600;font-size:16px;width:30px;height:30px;border-radius:50%;display:grid;place-items:center;border:1.5px solid var(--gb);color:var(--muted);flex:none}
+.rstep .rt{font-size:10.5px;letter-spacing:.14em;color:var(--muted);text-transform:uppercase;font-weight:600}
+.rstep .rd{font-size:14px;font-weight:600;line-height:1.35}
+.rstep .rthumb{margin-left:auto;width:36px;height:46px;border-radius:9px;background:linear-gradient(180deg,#FBF7F0,#EDE3D2);display:flex;align-items:flex-end;justify-content:center;overflow:hidden;flex:none}
+.rstep .rthumb img{height:42px;mix-blend-mode:multiply}
+.rstep.lx{border-color:rgba(176,138,69,.45)}
+.rstep.lx .rn{border-color:var(--gold);color:var(--gold)}
+.lead{padding:18px;margin-top:12px}
+.field{margin-top:12px}
+.field label{display:block;font-size:12.5px;font-weight:600;margin-bottom:6px;color:var(--muted)}
+.field input{width:100%;padding:14px;border:1px solid var(--gb);border-radius:14px;background:var(--surface);font-size:16px;color:var(--text)}
+.field input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--sel)}
+.check{display:flex;gap:10px;align-items:flex-start;font-size:12px;color:var(--muted);margin-top:12px;cursor:pointer;line-height:1.45}
+.check input{margin-top:2px;width:18px;height:18px;accent-color:var(--accent);flex:none}
+.err{color:var(--low);font-size:12px;margin-top:6px;display:none}
+.voucher{position:relative;margin-top:12px;border-radius:24px;padding:22px 20px;text-align:center;overflow:hidden;color:#F3ECE1;
+  background:radial-gradient(100% 70% at 100% 0%,rgba(214,178,109,.28),transparent 60%),linear-gradient(160deg,#11535A,#0A3539);border:1px solid rgba(214,178,109,.6);box-shadow:var(--shadow)}
+.voucher .vl{font-size:11px;letter-spacing:.28em;color:#E4CB93;font-weight:600}
+.voucher .off{font-family:var(--serif);font-size:64px;font-weight:600;line-height:1;margin-top:6px;color:#F1DBA6}
+.voucher .vp{font-size:14px;margin-top:6px;font-weight:600}
+.voucher .code{font-family:var(--mono);font-size:17px;letter-spacing:.14em;margin-top:12px;display:inline-block;padding:7px 14px;border-radius:10px;border:1px dashed rgba(244,236,225,.45)}
+.voucher .qr{background:#fff;border-radius:14px;padding:10px;display:inline-block;margin-top:14px}
+.voucher .qr img{display:block;width:140px;height:140px;image-rendering:pixelated}
+.voucher small{display:block;font-size:11.5px;color:rgba(244,236,225,.75);margin-top:12px}
+.btn.zalo{background:#0068FF;color:#fff;box-shadow:0 8px 24px rgba(0,104,255,.25)}
+.disclaimer{font-size:11px;color:var(--muted);margin-top:16px;line-height:1.5;opacity:.85}
+footer{position:relative;z-index:1;padding:18px 16px 30px;text-align:center;font-size:10px;color:var(--muted);border-top:1px solid var(--gb);letter-spacing:.14em}
+.stats b,.step3 .num,.mini .m,.pct,.gauge .val,.best .mbadge b,.voucher .off,.rstep .rn{font-variant-numeric:lining-nums;font-feature-settings:"lnum" 1}
+</style>
+</head>
+<body>
+<div class="app" id="app">
+  <header>
+    <div class="logo">LUXBANO<small>AI SKIN LAB</small></div>
+    <div class="hdr-r">
+      <button class="themebtn" id="themeBtn" aria-label="Light / dark">◐</button>
+      <div class="langs" role="group" aria-label="Language">
+        <button data-lang="vi">VI</button><button data-lang="en">EN</button><button data-lang="ko">KO</button>
+      </div>
+    </div>
+  </header>
+  <div class="booth-badge hidden" id="boothBadge">BOOTH MODE</div>
+
+  <!-- ============ HOME ============ -->
+  <section class="screen on" id="s-home">
+    <span class="kicker" data-i18n="tag"></span>
+    <h1 style="margin-top:10px" id="homeTitle"></h1>
+    <p class="sub" data-i18n="homeSub"></p>
+
+    <div class="hero-scan panel" style="margin-top:18px">
+      <img id="heroFace" alt="">
+      <div class="sweep"></div>
+      <svg class="brackets" viewBox="0 0 100 105" preserveAspectRatio="none">
+        <path d="M8 18V8h10M82 8h10v10M92 87v10H82M18 97H8V87" fill="none" stroke="#E4CB93" stroke-width="2" vector-effect="non-scaling-stroke"/>
+      </svg>
+      <div class="chip-float" style="left:14px;top:28%"><i></i><span data-i18n="m_radiance"></span><b>82</b></div>
+      <div class="chip-float" style="right:14px;top:46%;animation-delay:1.2s"><i></i><span data-i18n="m_firm"></span><b>74</b></div>
+      <div class="chip-float" style="left:22px;top:64%;animation-delay:2.1s"><i class="lo"></i><span data-i18n="m_spots"></span><b class="lo">58</b></div>
+      <div class="hero-meta"><span>468 LANDMARKS</span><span>ON-DEVICE AI</span></div>
+    </div>
+
+    <div class="stats glass">
+      <div><b>7</b><span data-i18n="stat1"></span></div>
+      <div><b>60s</b><span data-i18n="stat2"></span></div>
+      <div><b>468</b><span data-i18n="stat3"></span></div>
+    </div>
+
+    <button class="btn primary" id="startBtn"><span data-i18n="start"></span><span class="arrow">→</span></button>
+
+    <div class="steps3">
+      <div class="step3 glass"><div class="num">1</div><div><h3 data-i18n="st1t"></h3><p data-i18n="st1d"></p></div></div>
+      <div class="step3 glass"><div class="num">2</div><div><h3 data-i18n="st2t"></h3><p data-i18n="st2d"></p></div></div>
+      <div class="step3 glass"><div class="num">3</div><div><h3 data-i18n="st3t"></h3><p data-i18n="st3d"></p></div></div>
+    </div>
+
+    <div class="sec-title"><h3 data-i18n="formulas"></h3><span>FORMULA BEAUTY™</span></div>
+    <div class="pstrip" id="pstrip"></div>
+
+    <div class="note">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 018 0v4"/></svg>
+      <span data-i18n="privacy"></span>
+    </div>
+    <div class="powered">FORMULA BY <b>LYMORA SCIENCE R&amp;D</b></div>
+  </section>
+
+  <!-- ============ CAMERA ============ -->
+  <section class="screen" id="s-cam">
+    <span class="kicker" data-i18n="camTag"></span>
+    <h2 style="margin-top:8px" data-i18n="camTitle"></h2>
+    <p class="sub" data-i18n="camSub"></p>
+    <div class="cam panel" id="camBox">
+      <video id="video" playsinline muted autoplay class="flip hidden"></video>
+      <canvas id="shot" class="hidden"></canvas>
+      <canvas id="mesh"></canvas>
+      <div class="placeholder" id="camPh"><div><div class="pulse"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#E4CB93" stroke-width="1.6"><path d="M4 8V5a1 1 0 011-1h3M16 4h3a1 1 0 011 1v3M20 16v3a1 1 0 01-1 1h-3M8 20H5a1 1 0 01-1-1v-3"/><circle cx="12" cy="11" r="3.2"/><path d="M7 18c1-2.5 3-3.5 5-3.5s4 1 5 3.5"/></svg></div><span data-i18n="camPh"></span></div></div>
+      <svg class="brackets" viewBox="0 0 300 400" preserveAspectRatio="none" style="z-index:2">
+        <ellipse cx="150" cy="180" rx="96" ry="130" fill="none" stroke="rgba(244,230,200,.55)" stroke-width="1.2" stroke-dasharray="3 6"/>
+        <path d="M30 60V30h30M240 30h30v30M270 340v30h-30M60 370H30v-30" fill="none" stroke="#E4CB93" stroke-width="3"/>
+      </svg>
+      <div class="sweep"></div>
+      <div class="hud hidden" id="hud">
+        <span id="hFace"><i></i><em data-i18n="chkFace"></em></span>
+        <span id="hCenter"><i></i><em data-i18n="chkCenter"></em></span>
+        <span id="hLight"><i></i><em data-i18n="chkLight"></em></span>
+      </div>
+      <div class="countdown" id="countdown"></div>
+      <div class="hint" data-i18n="camHint"></div>
+    </div>
+    <div class="tips"><span data-i18n="tip1"></span><span data-i18n="tip2"></span><span data-i18n="tip3"></span></div>
+    <div class="warn hidden" id="camWarn"></div>
+    <div class="okmsg hidden" id="camOk" data-i18n="faceOk"></div>
+    <div class="stack" style="margin-top:16px">
+      <button class="btn primary" id="camOpen"><span data-i18n="camOpen"></span></button>
+      <button class="btn primary hidden" id="camShoot"><span data-i18n="camShoot"></span></button>
+      <button class="btn primary hidden" id="camUse"><span data-i18n="camUse"></span><span class="arrow">→</span></button>
+      <button class="btn ghost hidden" id="camRetake" data-i18n="camRetake"></button>
+      <label class="btn ghost" id="camUploadLbl"><span data-i18n="camUpload"></span><input type="file" accept="image/*" id="camFile" hidden></label>
+      <button class="btn link" id="camSkip" data-i18n="camSkip"></button>
+    </div>
+  </section>
+
+  <!-- ============ QUIZ ============ -->
+  <section class="screen" id="s-quiz">
+    <div class="segs" id="segs"></div>
+    <div class="qcount" id="qcount"></div>
+    <h2 id="qtitle" style="margin-top:8px"></h2>
+    <p class="sub" id="qhint"></p>
+    <div class="opts" id="qopts"></div>
+    <div class="qnav">
+      <button class="btn ghost back" id="qback" aria-label="Back">←</button>
+      <button class="btn primary" id="qnext" disabled></button>
+    </div>
+  </section>
+
+  <!-- ============ ANALYZING ============ -->
+  <section class="screen" id="s-analyze">
+    <div style="text-align:center"><span class="kicker" data-i18n="anTag"></span></div>
+    <div class="scanview panel"><img id="anImg" alt=""><canvas id="anMesh"></canvas><div class="sweep"></div></div>
+    <div class="pct"><span id="pct">0</span><small>%</small></div>
+    <ul class="alist" id="alist"></ul>
+  </section>
+
+  <!-- ============ RESULT ============ -->
+  <section class="screen" id="s-result">
+    <span class="kicker" data-i18n="resTag"></span>
+    <h2 style="margin-top:8px"><span class="grad">Skin Report</span></h2>
+
+    <div class="facecard panel">
+      <img id="resImg" alt="">
+      <svg id="callouts" viewBox="0 0 600 800" preserveAspectRatio="xMidYMid slice"></svg>
+      <div class="topline"><span id="prioLine"></span></div>
+      <div class="shade"></div>
+      <div class="overall">
+        <div class="gauge">
+          <svg viewBox="0 0 100 100"><defs><linearGradient id="gg"><stop offset="0" stop-color="#16676D"/><stop offset="1" stop-color="#C9A25A"/></linearGradient></defs>
+            <circle cx="50" cy="50" r="43" fill="none" style="stroke:var(--track)" stroke-width="8"/>
+            <circle id="gArc" cx="50" cy="50" r="43" fill="none" stroke="url(#gg)" stroke-width="8" stroke-linecap="round" stroke-dasharray="270.2" stroke-dashoffset="270.2" style="transition:stroke-dashoffset 1.4s cubic-bezier(.2,.8,.2,1)"/></svg>
+          <div class="val"><div><span id="gVal">0</span><small>/100</small></div></div>
+        </div>
+        <div>
+          <div class="lab" data-i18n="overall"></div>
+          <div class="verdict" id="verdict"></div>
+          <div class="stype" id="stype"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="icons" id="icons"></div>
+
+    <div class="sp">
+      <div class="glass"><div class="h g">« <span data-i18n="strengths"></span></div><ul id="strengths"></ul></div>
+      <div class="glass"><div class="h p"><span data-i18n="priorities"></span> »</div><ul id="priorities"></ul></div>
+    </div>
+
+    <div class="sec-title"><h3 data-i18n="bestTitle"></h3><span>FORMULA MATCH</span></div>
+    <div id="bestCard"></div>
+    <div id="others"></div>
+
+    <div class="sec-title"><h3 data-i18n="routineTitle"></h3><span>AM · PM · BODY</span></div>
+    <div class="routine" id="routine"></div>
+
+    <div class="sec-title"><h3 data-i18n="detailTitle"></h3><span>7 METRICS</span></div>
+    <div class="glass mlist"><div id="mlist"></div><p class="method" id="method"></p></div>
+
+    <div class="sec-title"><h3 data-i18n="leadTitle"></h3><span>REWARD</span></div>
+    <div class="glass lead" id="leadCard">
+      <p class="sub" style="margin-top:0;font-size:13.5px" data-i18n="leadSub"></p>
+      <div class="field"><label for="fName" data-i18n="fName"></label><input type="text" id="fName" autocomplete="name"></div>
+      <div class="field"><label for="fPhone" data-i18n="fPhone"></label><input type="tel" id="fPhone" inputmode="tel" autocomplete="tel" placeholder="09xx xxx xxx"></div>
+      <div class="err" id="phoneErr" data-i18n="phoneErr"></div>
+      <label class="check"><input type="checkbox" id="fConsent"><span data-i18n="consent"></span></label>
+      <label class="check"><input type="checkbox" id="fMkt"><span data-i18n="consentMkt"></span></label>
+      <button class="btn gold" style="margin-top:16px" id="getVoucher" disabled data-i18n="getVoucher"></button>
+    </div>
+
+    <div id="voucherWrap" class="hidden">
+      <div class="voucher">
+        <div class="vl">SKIN LAB VOUCHER</div>
+        <div class="off" id="vOff"></div>
+        <div class="vp" id="vProd"></div>
+        <div class="code" id="vCode"></div><br>
+        <div class="qr" id="vQr"></div>
+        <small data-i18n="vHow"></small>
+      </div>
+      <div class="stack" style="margin-top:12px">
+        <a class="btn zalo" id="zaloBtn" target="_blank" rel="noopener" data-i18n="zaloFollow"></a>
+        <button class="btn ghost" id="shareBtn" data-i18n="share"></button>
+      </div>
+    </div>
+
+    <div class="stack" style="margin-top:18px">
+      <button class="btn gold hidden" id="nextCustomer" data-i18n="nextCustomer"></button>
+      <button class="btn link" id="restart" data-i18n="restart"></button>
+    </div>
+    <p class="disclaimer" data-i18n="disclaimer"></p>
+  </section>
+
+  <footer>© 2027 LUXBANO · LYMORA SCIENCE · CONTEMPORARY FUNCTIONAL SKINCARE</footer>
+</div>
+
+<script>
+/* ============================================================
+   CONFIG — edit for deployment
+   ============================================================ */
+const CONFIG = {
+  zaloOA:  "https://zalo.me/LUXBANO_OA_ID",   // TODO real Zalo OA link
+  shopee:  "#",                                // TODO Shopee Mall store link
+  tiktok:  "#",                                // TODO TikTok Shop link
+  voucherPercent: 15,
+  boothIdleResetSec: 120,
+  autoCaptureFrames: 50                         // ~1.7s steady face → auto capture
+};
+const MP = "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.14";
+const MP_MODEL = "https://storage.googleapis.com/mediapipe-models/face_landmarker/face_landmarker/float16/1/face_landmarker.task";
+
+/* ============================================================
+   i18n
+   ============================================================ */
+const T = {
+vi:{
+  tag:"AI Skin Lab · LUXBANO",
+  homeTitle:'Phân tích da bằng <span class="grad">AI</span> trong 60 giây',
+  homeSub:"Quét khuôn mặt, trả lời 5 câu hỏi và nhận công thức chăm sóc da dành riêng cho bạn.",
+  stat1:"chỉ số da", stat2:"phân tích", stat3:"điểm nhận diện",
+  start:"Bắt đầu quét da",
+  st1t:"Quét khuôn mặt", st1d:"AI nhận diện 468 điểm trên khuôn mặt để đọc làn da của bạn",
+  st2t:"Trả lời 5 câu hỏi", st2d:"Lối sống: ánh nắng, máy lạnh, mối quan tâm về da",
+  st3t:"Nhận Skin Report & voucher", st3d:"Điểm da, sản phẩm phù hợp nhất và quy trình riêng",
+  privacy:"Ảnh được xử lý ngay trên điện thoại của bạn và không được tải lên máy chủ.",
+  camTag:"Bước 1 · AI Skin Scan", camTitle:"Quét khuôn mặt", camSub:"Đưa khuôn mặt vào khung, nhìn thẳng và giữ yên — AI sẽ tự động chụp.",
+  camPh:"Nhấn “Mở camera” để bắt đầu quét", camHint:"Giữ khuôn mặt trong khung",
+  chkFace:"Khuôn mặt", chkCenter:"Căn giữa", chkLight:"Ánh sáng",
+  holdStill:n=>`GIỮ YÊN · ${n}`, loadingAI:"Đang tải mô hình AI...",
+  tip1:"☀ Đủ ánh sáng", tip2:"Không trang điểm", tip3:"Bỏ kính",
+  camOpen:"Mở camera", camShoot:"Chụp ngay", camUse:"Tiếp tục", camRetake:"Chụp lại",
+  camUpload:"Tải ảnh từ thư viện", camSkip:"Bỏ qua, chỉ trả lời câu hỏi",
+  camDenied:"Không thể mở camera. Bạn có thể tải ảnh lên hoặc bỏ qua bước này.",
+  tooDark:"Ảnh hơi tối — kết quả có thể kém chính xác.", noFace:"Không nhận diện được khuôn mặt — hãy thử ảnh chính diện, đủ sáng.",
+  faceOk:"✓ Đã nhận diện khuôn mặt",
+  qStep:(a,b)=>`BƯỚC 2 · CÂU ${a}/${b}`, pickUpTo:n=>`Chọn tối đa ${n}`, next:"Tiếp tục", finish:"Phân tích ngay",
+  anTag:"AI đang phân tích",
+  a:["Nhận diện 468 điểm khuôn mặt","Phân tích độ rạng rỡ & đều màu","Phát hiện nếp nhăn & lỗ chân lông","Đánh giá độ ẩm & độ dịu da","Ghép công thức LUXBANO phù hợp"],
+  resTag:"Kết quả của bạn", overall:"Điểm da tổng thể", ovl:["Cần chăm sóc","Khá tốt","Da khỏe"],
+  prio:n=>`Phát hiện <b>${n}</b> điểm cần ưu tiên`,
+  strengths:"Điểm mạnh", priorities:"Cần ưu tiên",
+  bestTitle:"Công thức dành cho bạn", best:"BEST MATCH", match:"MATCH", alsoFor:"Cũng phù hợp",
+  buyShopee:"Shopee", buyTiktok:"TikTok Shop",
+  routineTitle:"Quy trình của bạn",
+  r:{cleanse:"Làm sạch",cleanseD:"Sữa rửa mặt dịu nhẹ",treat:"Đặc trị",moist:"Dưỡng ẩm",moistD:"Kem dưỡng ẩm nhẹ",protect:"Chống nắng",protectD:"SPF 50+ mỗi sáng — nhất là khi đi xe máy",body:"Cơ thể",am:"Sáng",pm:"Tối"},
+  detailTitle:"Chi tiết chỉ số", lv:["Ưu tiên","Trung bình","Tốt"],
+  methodCam:"Chỉ số được ước tính từ ảnh selfie (xử lý AI trên thiết bị) kết hợp với câu trả lời của bạn.",
+  methodQuiz:"Chỉ số được ước tính từ câu trả lời. Quét khuôn mặt để có kết quả chi tiết hơn.",
+  leadTitle:"Nhận voucher Skin Lab", leadSub:"Nhập thông tin để nhận voucher cho sản phẩm phù hợp nhất. Voucher được lưu trong Zalo OA của LUXBANO.",
+  fName:"Họ và tên", fPhone:"Số điện thoại Zalo", phoneErr:"Vui lòng nhập số điện thoại Việt Nam hợp lệ (10 số).",
+  consent:"Tôi đồng ý cho LUXBANO (Lymora Science) xử lý dữ liệu cá nhân để phát hành voucher theo Nghị định 13/2023/NĐ-CP.",
+  consentMkt:"Nhận tin sản phẩm mới & ưu đãi qua Zalo (không bắt buộc).",
+  getVoucher:"Nhận voucher", vHow:"Dùng trên Shopee / TikTok Shop của LUXBANO hoặc đưa mã QR cho tư vấn viên tại booth.",
+  zaloFollow:"Lưu voucher vào Zalo OA", share:"Chia sẻ kết quả",
+  shareText:(p,s)=>`Điểm da của mình là ${s}/100 — công thức hợp nhất là ${p}! Thử LUXBANO AI Skin Lab:`, copied:"Đã sao chép liên kết",
+  nextCustomer:"Khách hàng tiếp theo", restart:"Làm lại từ đầu",
+  disclaimer:"Kết quả chỉ mang tính tham khảo cho việc chăm sóc da mỹ phẩm, không phải chẩn đoán y khoa. Nếu da có vấn đề bất thường, hãy tham khảo ý kiến bác sĩ da liễu.",
+  m_radiance:"Độ rạng rỡ", m_spots:"Đốm nâu & màu da", m_lines:"Nếp nhăn nhỏ", m_firm:"Độ săn chắc", m_pores:"Lỗ chân lông", m_hydra:"Độ ẩm", m_calm:"Độ dịu da",
+  types:{oily:"Da dầu",combo:"Da hỗn hợp",normal:"Da thường",dry:"Da khô",sensitive:"Da nhạy cảm"}, typeLab:"Loại da",
+  why:{bright:"Da có dấu hiệu xỉn màu / không đều màu",sun:"Tiếp xúc nhiều với ánh nắng hằng ngày",firm:"Quan tâm đến nếp nhăn & độ đàn hồi",age:"Giai đoạn da cần chăm sóc độ săn chắc",dry:"Da / cơ thể có xu hướng khô",ac:"Ở trong phòng máy lạnh nhiều giờ",calm:"Da dễ ửng đỏ — cần dưỡng ẩm & củng cố hàng rào da",scan:p=>`AI Scan: “${p}” là chỉ số cần ưu tiên`}
+},
+en:{
+  tag:"AI Skin Lab · LUXBANO",
+  homeTitle:'Your <span class="grad">AI skin analysis</span> in 60 seconds',
+  homeSub:"Scan your face, answer 5 questions and get a skincare formula matched to you.",
+  stat1:"skin metrics", stat2:"analysis", stat3:"face landmarks",
+  start:"Start skin scan",
+  st1t:"Scan your face", st1d:"AI maps 468 points on your face to read your skin",
+  st2t:"Answer 5 questions", st2d:"Lifestyle: sun, air-conditioning, skin concerns",
+  st3t:"Get your Skin Report & voucher", st3d:"Skin score, best product match and your routine",
+  privacy:"Your photo is processed on your phone and never uploaded to a server.",
+  camTag:"Step 1 · AI Skin Scan", camTitle:"Scan your face", camSub:"Fit your face in the frame, look straight and hold still — the AI captures automatically.",
+  camPh:"Tap “Open camera” to start scanning", camHint:"Keep your face inside the frame",
+  chkFace:"Face", chkCenter:"Centred", chkLight:"Light",
+  holdStill:n=>`HOLD STILL · ${n}`, loadingAI:"Loading AI model...",
+  tip1:"☀ Good light", tip2:"No makeup", tip3:"No glasses",
+  camOpen:"Open camera", camShoot:"Capture now", camUse:"Continue", camRetake:"Retake",
+  camUpload:"Upload from gallery", camSkip:"Skip — answer questions only",
+  camDenied:"Camera unavailable. You can upload a photo or skip this step.",
+  tooDark:"The photo is a bit dark — results may be less accurate.", noFace:"No face detected — try a front-facing, well-lit photo.",
+  faceOk:"✓ Face detected",
+  qStep:(a,b)=>`STEP 2 · QUESTION ${a}/${b}`, pickUpTo:n=>`Choose up to ${n}`, next:"Next", finish:"Analyse now",
+  anTag:"AI is analysing",
+  a:["Mapping 468 face landmarks","Analysing radiance & tone","Detecting fine lines & pores","Assessing hydration & calmness","Matching your LUXBANO formula"],
+  resTag:"Your result", overall:"Overall skin score", ovl:["Needs care","Good skin","Great skin!"],
+  prio:n=>`<b>${n}</b> ${n===1?"priority":"priorities"} detected`,
+  strengths:"Strengths", priorities:"Priorities",
+  bestTitle:"Your formula match", best:"BEST MATCH", match:"MATCH", alsoFor:"Also for you",
+  buyShopee:"Shopee", buyTiktok:"TikTok Shop",
+  routineTitle:"Your routine",
+  r:{cleanse:"Cleanse",cleanseD:"Gentle cleanser",treat:"Treat",moist:"Moisturise",moistD:"Light moisturiser",protect:"Protect",protectD:"SPF 50+ every morning — especially on a motorbike",body:"Body",am:"AM",pm:"PM"},
+  detailTitle:"Metric details", lv:["Priority","Moderate","Strong"],
+  methodCam:"Scores are estimated from your selfie (on-device AI) combined with your answers.",
+  methodQuiz:"Scores are estimated from your answers. Scan your face for a more detailed result.",
+  leadTitle:"Get your Skin Lab voucher", leadSub:"Enter your details to get a voucher for your best match. It's saved in LUXBANO's Zalo OA.",
+  fName:"Full name", fPhone:"Zalo phone number", phoneErr:"Please enter a valid Vietnamese phone number (10 digits).",
+  consent:"I agree that LUXBANO (Lymora Science) may process my personal data to issue this voucher, under Decree 13/2023/ND-CP.",
+  consentMkt:"Send me new product news & offers via Zalo (optional).",
+  getVoucher:"Get my voucher", vHow:"Use it on LUXBANO's Shopee / TikTok Shop, or show the QR to a consultant at the booth.",
+  zaloFollow:"Save voucher in Zalo OA", share:"Share my result",
+  shareText:(p,s)=>`My skin score is ${s}/100 — my formula match is ${p}! Try LUXBANO AI Skin Lab:`, copied:"Link copied",
+  nextCustomer:"Next customer", restart:"Start over",
+  disclaimer:"Results are cosmetic skincare guidance only, not a medical diagnosis. For unusual skin conditions, please consult a dermatologist.",
+  m_radiance:"Radiance", m_spots:"Spots & tone", m_lines:"Fine lines", m_firm:"Firmness", m_pores:"Pores", m_hydra:"Hydration", m_calm:"Calmness",
+  types:{oily:"Oily skin",combo:"Combination skin",normal:"Normal skin",dry:"Dry skin",sensitive:"Sensitive skin"}, typeLab:"Skin type",
+  why:{bright:"Signs of dullness / uneven tone",sun:"High daily sun exposure",firm:"You care about lines & elasticity",age:"A stage where firmness care matters",dry:"Skin / body tends to be dry",ac:"Many hours in air-conditioning",calm:"Skin reddens easily — moisture & barrier care help",scan:p=>`AI Scan: “${p}” is a priority`}
+},
+ko:{
+  tag:"AI Skin Lab · LUXBANO",
+  homeTitle:'<span class="grad">AI 피부 진단</span>, 60초면 충분합니다',
+  homeSub:"얼굴을 스캔하고 5가지 질문에 답하면, 나에게 맞는 기능성 포뮬러를 추천해 드립니다.",
+  stat1:"피부 지표", stat2:"진단 시간", stat3:"얼굴 포인트",
+  start:"피부 스캔 시작",
+  st1t:"얼굴 스캔", st1d:"AI가 얼굴의 468개 포인트를 인식해 피부를 읽습니다",
+  st2t:"5가지 질문", st2d:"생활 습관: 햇빛, 에어컨, 피부 고민",
+  st3t:"Skin Report & 바우처", st3d:"피부 점수, 베스트 매치 제품, 나만의 루틴",
+  privacy:"사진은 휴대폰 안에서만 처리되며 서버로 전송되지 않습니다.",
+  camTag:"STEP 1 · AI 스킨 스캔", camTitle:"얼굴 스캔", camSub:"프레임 안에 얼굴을 맞추고 정면을 바라본 채 잠시 멈춰 주세요 — AI가 자동 촬영합니다.",
+  camPh:"‘카메라 열기’를 눌러 스캔을 시작하세요", camHint:"얼굴을 프레임 안에 유지해 주세요",
+  chkFace:"얼굴", chkCenter:"중앙", chkLight:"조명",
+  holdStill:n=>`움직이지 마세요 · ${n}`, loadingAI:"AI 모델 불러오는 중...",
+  tip1:"☀ 밝은 조명", tip2:"노메이크업", tip3:"안경 벗기",
+  camOpen:"카메라 열기", camShoot:"지금 촬영", camUse:"계속하기", camRetake:"다시 찍기",
+  camUpload:"앨범에서 사진 올리기", camSkip:"건너뛰기 (설문만 진행)",
+  camDenied:"카메라를 열 수 없습니다. 사진을 올리거나 이 단계를 건너뛰세요.",
+  tooDark:"사진이 어둡습니다 — 결과가 부정확할 수 있어요.", noFace:"얼굴을 인식하지 못했습니다 — 정면의 밝은 사진으로 다시 시도해 주세요.",
+  faceOk:"✓ 얼굴 인식 완료",
+  qStep:(a,b)=>`STEP 2 · 질문 ${a}/${b}`, pickUpTo:n=>`최대 ${n}개 선택`, next:"다음", finish:"분석하기",
+  anTag:"AI 분석 중",
+  a:["얼굴 포인트 468개 인식","광채 · 피부톤 분석","잔주름 · 모공 감지","수분 · 진정도 평가","LUXBANO 포뮬러 매칭"],
+  resTag:"진단 결과", overall:"종합 피부 점수", ovl:["관리 필요","좋은 피부","건강한 피부!"],
+  prio:n=>`우선 관리 포인트 <b>${n}</b>개 발견`,
+  strengths:"나의 강점", priorities:"우선 관리",
+  bestTitle:"나를 위한 포뮬러", best:"BEST MATCH", match:"MATCH", alsoFor:"함께 추천",
+  buyShopee:"Shopee", buyTiktok:"TikTok Shop",
+  routineTitle:"나만의 루틴",
+  r:{cleanse:"클렌징",cleanseD:"순한 클렌저",treat:"집중 케어",moist:"보습",moistD:"가벼운 보습 크림",protect:"자외선 차단",protectD:"매일 아침 SPF 50+ — 오토바이 이동 시 특히",body:"바디",am:"아침",pm:"저녁"},
+  detailTitle:"지표 상세", lv:["우선 관리","보통","좋음"],
+  methodCam:"셀피 이미지(기기 내 AI 처리)와 설문 응답을 결합해 추정한 지표입니다.",
+  methodQuiz:"설문 응답으로 추정한 지표입니다. 얼굴을 스캔하면 더 자세한 결과를 볼 수 있어요.",
+  leadTitle:"Skin Lab 바우처 받기", leadSub:"정보를 입력하면 베스트 매치 제품 바우처를 드립니다. 바우처는 LUXBANO Zalo OA에 저장됩니다.",
+  fName:"이름", fPhone:"Zalo 전화번호", phoneErr:"올바른 베트남 휴대폰 번호(10자리)를 입력해 주세요.",
+  consent:"바우처 발급을 위해 LUXBANO(리모라사이언스)가 개인정보를 처리하는 것에 동의합니다 (베트남 Decree 13/2023).",
+  consentMkt:"Zalo로 신제품 소식 및 혜택 받기 (선택)",
+  getVoucher:"바우처 받기", vHow:"LUXBANO Shopee / TikTok Shop에서 사용하거나, 부스 상담원에게 QR을 보여주세요.",
+  zaloFollow:"Zalo OA에 바우처 저장", share:"결과 공유하기",
+  shareText:(p,s)=>`내 피부 점수 ${s}/100 — 베스트 매치는 ${p}! LUXBANO AI Skin Lab 해보기:`, copied:"링크가 복사되었습니다",
+  nextCustomer:"다음 고객", restart:"처음부터 다시",
+  disclaimer:"본 결과는 화장품 스킨케어 참고용이며 의학적 진단이 아닙니다. 피부 이상이 있는 경우 피부과 전문의와 상담하세요.",
+  m_radiance:"광채", m_spots:"잡티 · 톤", m_lines:"잔주름", m_firm:"탄력", m_pores:"모공", m_hydra:"수분", m_calm:"진정도",
+  types:{oily:"지성 피부",combo:"복합성 피부",normal:"중성 피부",dry:"건성 피부",sensitive:"민감성 피부"}, typeLab:"피부 타입",
+  why:{bright:"피부가 칙칙하거나 톤이 고르지 않아요",sun:"일상 자외선 노출이 많아요",firm:"주름 · 탄력 고민이 있어요",age:"탄력 관리가 중요해지는 시기예요",dry:"피부 · 바디가 건조한 편이에요",ac:"에어컨 실내에 오래 머물러요",calm:"쉽게 붉어지는 편 — 보습 · 장벽 케어가 도움돼요",scan:p=>`AI 스캔: ‘${p}’ 우선 관리 필요`}
+}};
+T.vi.formulas="3 công thức LUXBANO"; T.en.formulas="3 LUXBANO formulas"; T.ko.formulas="LUXBANO 3가지 포뮬러";
+const PTAG={bright:{vi:"Tông da · Rạng rỡ",en:"Tone · Radiance",ko:"피부톤 · 광채"},
+  firm:{vi:"Nếp nhăn · Đàn hồi",en:"Wrinkle · Elasticity",ko:"주름 · 탄력"},
+  body:{vi:"Dưỡng ẩm · Hàng rào da",en:"Moisture · Barrier",ko:"보습 · 장벽"}};
+
+/* ============================================================
+   Quiz
+   ============================================================ */
+const QUIZ = [
+ { id:"age", q:{vi:"Bạn bao nhiêu tuổi?",en:"How old are you?",ko:"나이대가 어떻게 되세요?"},
+   opts:[
+    {t:{vi:"Dưới 25",en:"Under 25",ko:"25세 미만"}, n:{firm:10}},
+    {t:{vi:"25 – 34",en:"25 – 34",ko:"25 – 34세"}, n:{firm:40}},
+    {t:{vi:"35 – 44",en:"35 – 44",ko:"35 – 44세"}, n:{firm:70}, f:"age"},
+    {t:{vi:"45 trở lên",en:"45+",ko:"45세 이상"}, n:{firm:85}, f:"age"} ]},
+ { id:"type", q:{vi:"Da bạn thường thế nào vào buổi chiều?",en:"How does your skin feel by the afternoon?",ko:"오후가 되면 피부가 보통 어떤가요?"},
+   opts:[
+    {t:{vi:"Bóng dầu toàn mặt",en:"Shiny all over",ko:"얼굴 전체가 번들거려요"}, type:"oily", n:{hydra:15, oil:80}},
+    {t:{vi:"Dầu vùng chữ T, hai má bình thường",en:"Oily T-zone, normal cheeks",ko:"T존만 번들거려요"}, type:"combo", n:{hydra:30, oil:55}},
+    {t:{vi:"Thoải mái, cân bằng",en:"Comfortable and balanced",ko:"편안하고 균형 잡혀 있어요"}, type:"normal", n:{hydra:25, oil:25}},
+    {t:{vi:"Căng, khô, đôi khi bong tróc",en:"Tight, dry, sometimes flaky",ko:"당기고 건조해요"}, type:"dry", n:{hydra:75, oil:15}, f:"dry"},
+    {t:{vi:"Dễ ửng đỏ, châm chích",en:"Easily red or stinging",ko:"쉽게 붉어지고 따가워요"}, type:"sensitive", n:{hydra:55, calm:70, oil:30}, f:"calm"} ]},
+ { id:"concern", multi:2, q:{vi:"Bạn quan tâm điều gì nhất?",en:"What are your main concerns?",ko:"가장 큰 피부 고민은 무엇인가요?"},
+   opts:[
+    {t:{vi:"Da xỉn màu, không đều màu",en:"Dull or uneven tone",ko:"칙칙하고 톤이 고르지 않음"}, n:{bright:70}, f:"bright"},
+    {t:{vi:"Thâm nám, đốm nâu",en:"Dark spots",ko:"잡티 · 색소"}, n:{bright:55, spot:80}, f:"bright"},
+    {t:{vi:"Nếp nhăn, rãnh nhăn",en:"Fine lines & wrinkles",ko:"주름"}, n:{firm:55, line:80}, f:"firm"},
+    {t:{vi:"Da chảy xệ, kém đàn hồi",en:"Loss of firmness",ko:"탄력 저하"}, n:{firm:80}, f:"firm"},
+    {t:{vi:"Da tay & cơ thể khô ráp",en:"Dry, rough hands & body",ko:"손 · 바디 건조함"}, n:{hydra:80}, f:"dry"},
+    {t:{vi:"Ửng đỏ, nhạy cảm",en:"Redness & sensitivity",ko:"붉은기 · 민감함"}, n:{calm:70, hydra:40}, f:"calm"} ]},
+ { id:"sun", q:{vi:"Mỗi ngày bạn ở ngoài nắng bao lâu? (đi xe máy, đi bộ...)",en:"How long are you in the sun each day? (motorbike, walking...)",ko:"하루에 햇빛에 얼마나 노출되나요? (오토바이, 도보 등)"},
+   opts:[
+    {t:{vi:"Dưới 30 phút",en:"Under 30 min",ko:"30분 미만"}, n:{bright:15}},
+    {t:{vi:"30 phút – 2 giờ",en:"30 min – 2 hrs",ko:"30분 – 2시간"}, n:{bright:45}, f:"sun"},
+    {t:{vi:"Hơn 2 giờ",en:"More than 2 hrs",ko:"2시간 이상"}, n:{bright:70, spot:55}, f:"sun"} ]},
+ { id:"ac", q:{vi:"Bạn ở trong phòng máy lạnh bao lâu mỗi ngày?",en:"How many hours a day are you in air-conditioning?",ko:"하루에 에어컨 실내에 얼마나 머무나요?"},
+   opts:[
+    {t:{vi:"Dưới 4 giờ",en:"Under 4 hrs",ko:"4시간 미만"}, n:{hydra:15}},
+    {t:{vi:"4 – 8 giờ",en:"4 – 8 hrs",ko:"4 – 8시간"}, n:{hydra:45}},
+    {t:{vi:"Hơn 8 giờ",en:"More than 8 hrs",ko:"8시간 이상"}, n:{hydra:70}, f:"ac"} ]}
+];
+
+/* Products — claims limited to functions stated in brand materials */
+const PRODUCTS = {
+ bright:{ img:"img/brightening.png", en:"Brightening Essence · 30 g",
+   name:{vi:"Brightening Essence",en:"Brightening Essence",ko:"브라이트닝 에센스"},
+   desc:{vi:"Essence cho làn da sáng, trong và đều màu. Hỗ trợ cải thiện tông da & độ rạng rỡ.",en:"For a clear, even-looking complexion. Helps care for skin tone & radiance.",ko:"맑고 투명한 피부톤을 위한 에센스. 미백 · 피부톤 개선 · 광채 케어."}},
+ firm:{ img:"img/firming.png", en:"Firming Essence · 30 g",
+   name:{vi:"Firming Essence",en:"Firming Essence",ko:"퍼밍 에센스"},
+   desc:{vi:"Essence cho làn da săn chắc, mịn màng. Hỗ trợ chăm sóc nếp nhăn, độ đàn hồi & mật độ da.",en:"For firm, smooth-looking skin. Helps care for wrinkles, elasticity & density.",ko:"탄력 있고 매끄러운 피부를 위한 에센스. 주름 개선 · 탄력 · 피부 밀도 케어."}},
+ body:{ img:"img/handbody.png", en:"Hand & Body Cream · 250 g",
+   name:{vi:"Hand & Body Cream",en:"Hand & Body Cream",ko:"핸드 & 바디 크림"},
+   desc:{vi:"Cấp ẩm sâu, củng cố hàng rào da và cho cảm giác mềm mịn cho tay & cơ thể.",en:"Deep moisture, barrier support and a soft, smooth feel for hands & body.",ko:"건조한 피부를 촉촉하고 부드럽게. 깊은 보습 · 피부 장벽 강화."}}
+};
+
+const METRICS = ["radiance","spots","lines","firm","pores","hydra","calm"];
+/* MediaPipe landmark index per callout + fallback normalized position */
+const CALL = {
+  lines:   {idx:151, def:[.50,.25]},
+  radiance:{idx:117, def:[.38,.45]},
+  spots:   {idx:346, def:[.63,.46]},
+  pores:   {idx:4,   def:[.53,.52]},
+  firm:    {idx:172, def:[.35,.62]},
+  calm:    {idx:425, def:[.63,.58]}
+};
+const ICONS = {
+  radiance:'<path d="M12 3v3.5M12 17.5V21M3 12h3.5M17.5 12H21M5.6 5.6l2.5 2.5M15.9 15.9l2.5 2.5M5.6 18.4l2.5-2.5M15.9 8.1l2.5-2.5"/><circle cx="12" cy="12" r="2.5"/>',
+  spots:'<circle cx="8" cy="9" r="2"/><circle cx="15.5" cy="8" r="1.4"/><circle cx="11" cy="15" r="2.6"/><circle cx="17" cy="15.5" r="1.1"/>',
+  lines:'<path d="M3 8c3-2 6 2 9 0s6-2 9 0M3 13c3-2 6 2 9 0s6-2 9 0M3 18c3-2 6 2 9 0s6-2 9 0"/>',
+  firm:'<path d="M6 20V7M3.5 9.5L6 7l2.5 2.5M12 20V4M9.5 6.5L12 4l2.5 2.5M18 20V7M15.5 9.5L18 7l2.5 2.5"/>',
+  pores:'<circle cx="7" cy="7" r="1.6"/><circle cx="12" cy="7" r="1.6"/><circle cx="17" cy="7" r="1.6"/><circle cx="7" cy="12" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="17" cy="12" r="1.6"/><circle cx="7" cy="17" r="1.6"/><circle cx="12" cy="17" r="1.6"/><circle cx="17" cy="17" r="1.6"/>',
+  hydra:'<path d="M12 3c4 5 6 8 6 11a6 6 0 01-12 0c0-3 2-6 6-11z"/><path d="M9.5 14.5a2.5 2.5 0 002.5 2.5"/>',
+  calm:'<path d="M12 3l7 3v6c0 4-3 7-7 9-4-2-7-5-7-9V6z"/><path d="M9 12l2 2 4-4"/>'
+};
+
+/* ============================================================
+   State & helpers
+   ============================================================ */
+const params = new URLSearchParams(location.search);
+const S = {
+  lang: pickLang(),
+  src: (params.get("src")||"direct").toLowerCase().replace(/[^a-z0-9_-]/g,"").slice(0,20) || "direct",
+  booth: params.get("mode")==="booth",
+  qi:0, answers:{}, stream:null, pts:null, img:null, shotURL:null, result:null,
+  landmarker:null, lmLoading:null, lmMode:null, steady:0, frame:0, lightOK:true
+};
+function pickLang(){
+  const p=params.get("lang"); if (p && T[p]) return p;
+  try{ const s=localStorage.getItem("lx_lang"); if (s && T[s]) return s; }catch(e){}
+  const n=(navigator.language||"vi").slice(0,2); return T[n]?n:"vi";
+}
+const t = k => T[S.lang][k];
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const clamp = (v,a=5,b=98)=>Math.max(a,Math.min(b,Math.round(v)));
+const colorFor = v => v>=75 ? "var(--good)" : v>=55 ? "var(--mid)" : "var(--low)";
+const panelCol = v => v>=75 ? ["#A9E0D6","#16676D"] : v>=55 ? ["#EBCB84","#94692A"] : ["#F3A47E","#B5562F"];
+function track(ev,data={}){ const p={event:ev,src:S.src,booth:S.booth,lang:S.lang,ts:Date.now(),...data}; (window.dataLayer=window.dataLayer||[]).push(p); console.log("[track]",p); }
+function show(id){ document.querySelectorAll(".screen").forEach(s=>s.classList.toggle("on",s.id===id)); window.scrollTo(0,0); }
+
+function applyLang(){
+  document.documentElement.lang=S.lang;
+  document.querySelectorAll("[data-i18n]").forEach(el=>{ const v=t(el.dataset.i18n); if (typeof v==="string") el.textContent=v; });
+  $("#homeTitle").innerHTML=t("homeTitle");
+  $("#pstrip").innerHTML=Object.keys(PRODUCTS).map(k=>`<div class="pcard"><img src="${PRODUCTS[k].img}" alt=""><b>${esc(PRODUCTS[k].name[S.lang])}</b><span>${esc(PTAG[k][S.lang])}</span></div>`).join("");
+  document.querySelectorAll(".langs button").forEach(b=>b.classList.toggle("on",b.dataset.lang===S.lang));
+  if ($("#s-quiz").classList.contains("on")) renderQ();
+  if (S.result) renderResult(false);
+}
+
+/* ============================================================
+   Halftone "AI face" illustration (no real person's photo needed)
+   ============================================================ */
+function halftoneFace(){
+  const o=document.createElement("canvas"); o.width=150; o.height=200; const x=o.getContext("2d");
+  x.fillStyle="#000"; x.fillRect(0,0,150,200);
+  const E=(cx,cy,rx,ry,rot,fill)=>{ x.fillStyle=fill; x.beginPath(); x.ellipse(cx,cy,rx,ry,rot||0,0,Math.PI*2); x.fill(); };
+  x.filter="blur(1.6px)";
+  // hair (dim texture) + shoulders/neck
+  E(75,62,56,50,0,"#3a3a3a"); E(75,205,80,42,0,"#5a5a5a");
+  x.fillStyle="#707070"; x.fillRect(58,128,34,60);
+  E(75,146,20,8,0,"#2a2a2a");                                  // shadow under chin
+  // face: egg shape with side shading
+  const g=x.createRadialGradient(68,80,6,75,92,58); g.addColorStop(0,"#ffffff"); g.addColorStop(.6,"#d6d6d6"); g.addColorStop(1,"#6e6e6e");
+  x.fillStyle=g; x.beginPath(); x.moveTo(75,36);
+  x.bezierCurveTo(30,36,30,104,50,132); x.quadraticCurveTo(75,158,100,132); x.bezierCurveTo(120,104,120,36,75,36); x.fill();
+  // hairline fringe
+  x.fillStyle="#3a3a3a"; x.beginPath(); x.moveTo(30,70); x.bezierCurveTo(36,30,114,30,120,70); x.bezierCurveTo(105,46,70,44,54,52); x.bezierCurveTo(44,56,36,62,30,70); x.fill();
+  // brows, eyes, nose, lips
+  E(58,72,11,2.4,-.12,"rgba(0,0,0,.75)"); E(92,72,11,2.4,.12,"rgba(0,0,0,.75)");
+  E(58,83,9,4.2,0,"rgba(0,0,0,.85)"); E(92,83,9,4.2,0,"rgba(0,0,0,.85)");
+  E(58,83,2.6,2.6,0,"rgba(255,255,255,.35)"); E(92,83,2.6,2.6,0,"rgba(255,255,255,.35)");
+  E(79,98,2.6,11,0,"rgba(0,0,0,.28)");
+  E(70,110,3,1.8,0,"rgba(0,0,0,.7)"); E(80,110,3,1.8,0,"rgba(0,0,0,.7)");
+  E(75,124,12,2.2,0,"rgba(0,0,0,.8)"); E(75,127.5,9,2.6,0,"rgba(0,0,0,.35)");
+  E(55,100,10,7,0,"rgba(255,255,255,.25)"); E(95,100,10,7,0,"rgba(255,255,255,.25)"); // cheek highlights
+  x.filter="none";
+  const d=x.getImageData(0,0,150,200).data;
+  const c=document.createElement("canvas"); c.width=600; c.height=800; const g2=c.getContext("2d");
+  const bg=g2.createLinearGradient(0,0,0,800); bg.addColorStop(0,"#11535A"); bg.addColorStop(1,"#0A3539");
+  g2.fillStyle=bg; g2.fillRect(0,0,600,800);
+  const step=7;
+  for (let y=step/2;y<800;y+=step) for (let xx=step/2;xx<600;xx+=step){
+    const v=d[((Math.floor(y/4))*150+Math.floor(xx/4))*4]/255;
+    if (v<.06) continue;
+    g2.fillStyle=`hsla(${42-v*4},${40+v*25}%,${60+v*30}%,${.16+v*.84})`;
+    g2.beginPath(); g2.arc(xx,y,Math.max(.5,Math.pow(v,1.3)*3.4),0,Math.PI*2); g2.fill();
+  }
+  return c.toDataURL("image/jpeg",.9);
+}
+const FACE_ART = halftoneFace();
+$("#heroFace").src = FACE_ART;
+
+/* ============================================================
+   MediaPipe Face Landmarker (lazy, runs on-device)
+   ============================================================ */
+function loadLandmarker(){
+  if (S.landmarker) return Promise.resolve(S.landmarker);
+  if (S.lmLoading) return S.lmLoading;
+  S.lmLoading = (async()=>{
+    const v = await import(MP+"/vision_bundle.mjs");
+    const fs = await v.FilesetResolver.forVisionTasks(MP+"/wasm");
+    const make = delegate => v.FaceLandmarker.createFromOptions(fs,{baseOptions:{modelAssetPath:MP_MODEL,delegate},runningMode:"VIDEO",numFaces:1});
+    let lm; try{ lm=await make("GPU"); }catch(e){ lm=await make("CPU"); }
+    S.lmMode="VIDEO"; S.landmarker=lm; track("ai_model_loaded"); return lm;
+  })().catch(e=>{ console.warn("FaceLandmarker unavailable",e); S.lmLoading=null; return null; });
+  return S.lmLoading;
+}
+async function setMode(m){ if (S.landmarker && S.lmMode!==m){ await S.landmarker.setOptions({runningMode:m}); S.lmMode=m; } }
+const withTimeout=(p,ms)=>Promise.race([p,new Promise(r=>setTimeout(()=>r(null),ms))]);
+
+/* ============================================================
+   Camera
+   ============================================================ */
+const video=$("#video"), shot=$("#shot"), mesh=$("#mesh");
+function camUI(state){ // idle | live | taken
+  $("#camOpen").classList.toggle("hidden",state!=="idle");
+  $("#camShoot").classList.toggle("hidden",state!=="live");
+  $("#camUse").classList.toggle("hidden",state!=="taken");
+  $("#camRetake").classList.toggle("hidden",state!=="taken");
+  $("#camUploadLbl").classList.toggle("hidden",state==="live");
+  video.classList.toggle("hidden",state!=="live");
+  shot.classList.toggle("hidden",state!=="taken");
+  $("#camPh").classList.toggle("hidden",state!=="idle");
+  $("#hud").classList.toggle("hidden",state!=="live");
+  $("#camBox").classList.toggle("camscan",state==="live");
+  mesh.classList.toggle("flip",state==="live");
+  if (state!=="taken") $("#camOk").classList.add("hidden");
+  if (state==="idle") clearMesh();
+  $("#countdown").textContent="";
+}
+function stopCam(){ if (S.stream){ S.stream.getTracks().forEach(tr=>tr.stop()); S.stream=null; } }
+function warn(msg){ const w=$("#camWarn"); w.textContent=msg||""; w.classList.toggle("hidden",!msg); }
+function sizeMesh(){ const r=mesh.getBoundingClientRect(), d=window.devicePixelRatio||1; mesh.width=Math.max(1,r.width*d); mesh.height=Math.max(1,r.height*d); }
+function clearMesh(){ mesh.getContext("2d").clearRect(0,0,mesh.width,mesh.height); }
+function drawPts(ctx,pts,map,step,col,rad){
+  ctx.fillStyle=col;
+  for (let i=0;i<pts.length;i+=step){ const [x,y]=map(pts[i]); ctx.beginPath(); ctx.arc(x,y,rad,0,6.283); ctx.fill(); }
+}
+
+$("#camOpen").onclick = async ()=>{
+  warn("");
+  try{
+    S.stream = await navigator.mediaDevices.getUserMedia({video:{facingMode:"user",width:{ideal:720},height:{ideal:960}},audio:false});
+    video.srcObject=S.stream; await video.play();
+    camUI("live"); sizeMesh(); S.steady=0; track("camera_open");
+    if (!S.landmarker) $("#countdown").textContent=t("loadingAI");
+    const lm = await loadLandmarker();
+    if (lm) await setMode("VIDEO");
+    $("#countdown").textContent="";
+    requestAnimationFrame(liveLoop);
+  }catch(e){ stopCam(); camUI("idle"); warn(t("camDenied")); track("camera_denied",{err:String(e&&e.name)}); }
+};
+
+const lightCv=document.createElement("canvas"); lightCv.width=32; lightCv.height=32;
+function liveLoop(){
+  if (!S.stream) return;
+  const ctx=mesh.getContext("2d"); ctx.clearRect(0,0,mesh.width,mesh.height);
+  const vw=video.videoWidth, vh=video.videoHeight;
+  if (vw && S.frame++%15===0){
+    const lc=lightCv.getContext("2d",{willReadFrequently:true}); lc.drawImage(video,0,0,32,32);
+    const d=lc.getImageData(0,0,32,32).data; let s=0; for(let i=0;i<d.length;i+=4) s+=.299*d[i]+.587*d[i+1]+.114*d[i+2];
+    const L=s/1024; S.lightOK = L>65 && L<225;
+  }
+  let face=false, center=false;
+  if (S.landmarker && vw && S.lmMode==="VIDEO"){
+    const res=S.landmarker.detectForVideo(video,performance.now());
+    const p=res.faceLandmarks && res.faceLandmarks[0];
+    if (p){
+      face=true;
+      const bw=mesh.width, bh=mesh.height, sc=Math.max(bw/vw,bh/vh), ox=(bw-vw*sc)/2, oy=(bh-vh*sc)/2;
+      const map=q=>[q.x*vw*sc+ox, q.y*vh*sc+oy];
+      drawPts(ctx,p,map,2,"rgba(244,228,186,.85)",1.3*(window.devicePixelRatio||1));
+      const [nx,ny]=map(p[4]), fw=Math.abs(map(p[454])[0]-map(p[234])[0]);
+      center = Math.abs(nx/bw-.5)<.12 && Math.abs(ny/bh-.47)<.14 && fw/bw>.38;
+    }
+  }
+  $("#hFace").classList.toggle("ok",face); $("#hCenter").classList.toggle("ok",center); $("#hLight").classList.toggle("ok",S.lightOK);
+  if (face && center && S.lightOK){
+    S.steady++;
+    const left=Math.ceil((CONFIG.autoCaptureFrames-S.steady)/17);
+    $("#countdown").textContent = left>0 ? t("holdStill")(left) : "";
+    if (S.steady>=CONFIG.autoCaptureFrames){ capture(); return; }
+  } else { S.steady=0; if (S.landmarker) $("#countdown").textContent=""; }
+  requestAnimationFrame(liveLoop);
+}
+function capture(){
+  if (!S.stream) return;
+  const w=video.videoWidth, h=video.videoHeight, tw=Math.min(w,h*3/4), th=tw*4/3;
+  shot.width=600; shot.height=800;
+  const c=shot.getContext("2d"); c.save(); c.translate(600,0); c.scale(-1,1);   // store mirrored = what the user saw
+  c.drawImage(video,(w-tw)/2,(h-th)/2,tw,th,0,0,600,800); c.restore();
+  stopCam(); camUI("taken"); track("photo_capture"); processShot();
+}
+$("#camShoot").onclick = capture;
+$("#camRetake").onclick = ()=>{ S.pts=null; S.img=null; warn(""); camUI("idle"); $("#camOpen").click(); };
+$("#camFile").onchange = e=>{
+  const f=e.target.files&&e.target.files[0]; if (!f) return;
+  const im=new Image();
+  im.onload=()=>{
+    const w=im.naturalWidth,h=im.naturalHeight,tw=Math.min(w,h*3/4),th=tw*4/3;
+    shot.width=600; shot.height=800; shot.getContext("2d").drawImage(im,(w-tw)/2,(h-th)/2,tw,th,0,0,600,800);
+    URL.revokeObjectURL(im.src); stopCam(); camUI("taken"); track("photo_upload"); processShot();
+  };
+  im.src=URL.createObjectURL(f); e.target.value="";
+};
+async function processShot(){
+  warn(""); sizeMesh();
+  const lm = await withTimeout(loadLandmarker(), 10000);
+  let pts=null;
+  if (lm){ await setMode("IMAGE"); const r=lm.detect(shot); pts=(r.faceLandmarks&&r.faceLandmarks[0])||null; }
+  S.pts=pts;
+  const a=analyseImage(shot,pts,!!lm);
+  S.img = a.ok ? a : null;
+  S.shotURL = shot.toDataURL("image/jpeg",.85);
+  if (pts){
+    const ctx=mesh.getContext("2d"); ctx.clearRect(0,0,mesh.width,mesh.height);
+    drawPts(ctx,pts,q=>[q.x*mesh.width,q.y*mesh.height],2,"rgba(244,228,186,.85)",1.2*(window.devicePixelRatio||1));
+    $("#camOk").classList.remove("hidden");
+  }
+  if (!a.ok) warn(t("noFace")); else if (a.meanL<70) warn(t("tooDark"));
+}
+$("#camUse").onclick = ()=>goQuiz();
+$("#camSkip").onclick = ()=>{ stopCam(); S.img=null; S.pts=null; S.shotURL=null; goQuiz(); };
+
+/* ============================================================
+   Prototype image metrics (patches around landmarks).
+   Production: swap for a trained skin-analysis model / API.
+   ============================================================ */
+function analyseImage(cv,pts,aiAvailable){
+  const W=300,H=400,c=document.createElement("canvas"); c.width=W; c.height=H;
+  const x=c.getContext("2d",{willReadFrequently:true}); x.drawImage(cv,0,0,W,H);
+  const d=x.getImageData(0,0,W,H).data, gray=new Float32Array(W*H);
+  for (let i=0;i<W*H;i++) gray[i]=.299*d[i*4]+.587*d[i*4+1]+.114*d[i*4+2];
+  let ok=!!pts;
+  if (!pts && !aiAvailable){ // fallback face check: skin-like pixels inside the oval
+    let n=0,sk=0;
+    for (let j=0;j<H;j+=2) for (let i=0;i<W;i+=2){
+      const dx=(i-W*.5)/(W*.27), dy=(j-H*.45)/(H*.28); if (dx*dx+dy*dy>1) continue; n++;
+      const p=(j*W+i)*4, r=d[p], g=d[p+1], b=d[p+2], mx=Math.max(r,g,b), mn=Math.min(r,g,b);
+      if (r>60&&g>30&&b>15&&r>g&&r>b&&mx-mn>12) sk++;
+    }
+    ok = sk/(n||1) > .3;
+  }
+  const pos=k=>{ const P=CALL[k]; return pts? [pts[P.idx].x, pts[P.idx].y] : P.def; };
+  const patch=k=>{
+    const [px,py]=pos(k), cx=Math.round(px*W), cy=Math.round(py*H), r=12;
+    let n=0,sL=0,sL2=0,red=0,lap=0;
+    for (let j=Math.max(1,cy-r);j<Math.min(H-1,cy+r);j++) for (let i=Math.max(1,cx-r);i<Math.min(W-1,cx+r);i++){
+      const k2=j*W+i, p=k2*4, L=gray[k2]; n++; sL+=L; sL2+=L*L; red+=(d[p]-d[p+1])/(d[p]+d[p+1]+d[p+2]+1);
+      lap+=Math.abs(4*L-gray[k2-1]-gray[k2+1]-gray[k2-W]-gray[k2+W]);
+    }
+    n=n||1; const m=sL/n; return {L:m, sd:Math.sqrt(Math.max(0,sL2/n-m*m)), red:red/n, lap:lap/n};
+  };
+  const pr=patch("radiance"), ps=patch("spots"), pl=patch("lines"), pp=patch("pores"), pf=patch("firm"), pc=patch("calm");
+  return { ok, meanL:(pr.L+ps.L)/2, m:{
+    radiance: clamp(25+((pr.L+ps.L)/2-80)*.6),
+    spots:    clamp(100-(ps.sd-5)*3.2),
+    lines:    clamp(100-(pl.lap-2.5)*8),
+    pores:    clamp(100-(pp.lap-2.5)*6.5),
+    firm:     clamp(100-(pf.lap-2.5)*6),
+    calm:     clamp(100-((pc.red+pr.red)/2-.09)*480)
+  }};
+}
+
+/* ============================================================
+   Quiz
+   ============================================================ */
+function goQuiz(){ S.qi=0; renderQ(); show("s-quiz"); }
+function renderQ(){
+  const q=QUIZ[S.qi], sel=S.answers[q.id]||[];
+  $("#segs").innerHTML=QUIZ.map((_,i)=>`<i class="${i<=S.qi?"on":""}"></i>`).join("");
+  $("#qcount").textContent=t("qStep")(S.qi+1,QUIZ.length);
+  $("#qtitle").textContent=q.q[S.lang];
+  $("#qhint").textContent=q.multi?t("pickUpTo")(q.multi):"";
+  const box=$("#qopts"); box.innerHTML="";
+  q.opts.forEach((o,i)=>{
+    const b=document.createElement("button");
+    b.className="opt"+(q.multi?" multi":"")+(sel.includes(i)?" sel":"");
+    b.innerHTML=`<span class="dot"></span><span>${esc(o.t[S.lang])}</span>`;
+    b.onclick=()=>{
+      let cur=S.answers[q.id]||[];
+      if (q.multi){ if (cur.includes(i)) cur=cur.filter(x=>x!==i); else { cur=[...cur,i]; if (cur.length>q.multi) cur.shift(); } }
+      else cur=[i];
+      S.answers[q.id]=cur; renderQ();
+      if (!q.multi) setTimeout(nextQ,220);
+    };
+    box.appendChild(b);
+  });
+  $("#qnext").disabled=!sel.length;
+  $("#qnext").textContent=S.qi===QUIZ.length-1?t("finish"):t("next");
+}
+function nextQ(){
+  const q=QUIZ[S.qi]; if (!(S.answers[q.id]||[]).length) return;
+  if (S.qi<QUIZ.length-1){ S.qi++; renderQ(); } else { track("quiz_complete",{answers:S.answers}); runAnalysis(); }
+}
+$("#qnext").onclick=nextQ;
+$("#qback").onclick=()=>{ if (S.qi>0){ S.qi--; renderQ(); } else show("s-cam"); };
+
+/* ============================================================
+   Scoring
+   ============================================================ */
+function computeResult(){
+  const need={bright:0,firm:0,hydra:0,calm:0,oil:30,spot:0,line:0}, flags={}; let type="normal";
+  QUIZ.forEach(q=>(S.answers[q.id]||[]).forEach(i=>{
+    const o=q.opts[i]; if (o.type) type=o.type; if (o.f) flags[o.f]=1;
+    for (const k in o.n) need[k]=Math.max(need[k]||0,o.n[k]);
+  }));
+  const qz={
+    radiance:100-need.bright*.6, spots:100-Math.max(need.bright*.55,need.spot*.75),
+    lines:100-Math.max(need.firm*.6,need.line*.75), firm:100-need.firm*.7,
+    pores:100-need.oil*.55, hydra:100-need.hydra*.8, calm:100-need.calm*.75
+  };
+  const has=!!S.img, m={};
+  METRICS.forEach(k=>{ const iv=has?S.img.m[k]:undefined; m[k]=clamp(iv!=null? iv*.55+qz[k]*.45 : qz[k], 12, 96); });
+  const overall=clamp(METRICS.reduce((s,k)=>s+m[k],0)/METRICS.length, 30, 97);
+  const sorted=[...METRICS].sort((a,b)=>m[b]-m[a]);
+  if (has){ if ((m.radiance+m.spots)/2<60) flags.bright=1; if ((m.lines+m.firm)/2<60) flags.firm=1; }
+  const score={
+    bright:(100-m.radiance)*.5+(100-m.spots)*.5+(flags.sun?8:0)+(flags.bright?10:0),
+    firm:(100-m.lines)*.5+(100-m.firm)*.5+(flags.age?8:0)+(flags.firm?10:0),
+    body:(100-m.hydra)*.85+(100-m.calm)*.15+(flags.ac?8:0)+(flags.dry?12:0)
+  };
+  const ranked=Object.keys(score).sort((a,b)=>score[b]-score[a]);
+  const top=score[ranked[0]]||1, pct={};
+  ranked.forEach((k,i)=>pct[k]=Math.round(Math.min(98,74+24*(score[k]/top))-i*3));
+  const whys={
+    bright:[flags.bright&&"bright",flags.sun&&"sun"].filter(Boolean),
+    firm:[flags.firm&&"firm",flags.age&&"age"].filter(Boolean),
+    body:[flags.dry&&"dry",flags.ac&&"ac",(type==="sensitive"||flags.calm)&&"calm"].filter(Boolean)
+  };
+  const heroMetric={bright:m.radiance<m.spots?"radiance":"spots",firm:m.lines<m.firm?"lines":"firm",body:m.hydra<m.calm?"hydra":"calm"}[ranked[0]];
+  return {type,m,overall,has,strengths:sorted.slice(0,2),priorities:sorted.slice(-2).reverse(),ranked,pct,whys,heroMetric,
+          prioCount:METRICS.filter(k=>m[k]<60).length};
+}
+
+/* ============================================================
+   Analyzing screen
+   ============================================================ */
+function runAnalysis(hold){
+  show("s-analyze");
+  $("#anImg").src=S.shotURL||FACE_ART;
+  const cv=$("#anMesh"); cv.width=600; cv.height=800; const ctx=cv.getContext("2d"); ctx.clearRect(0,0,600,800);
+  if (S.pts) drawPts(ctx,S.pts,q=>[q.x*600,q.y*800],1,"rgba(244,228,186,.8)",1.6);
+  $("#alist").innerHTML=t("a").map(s=>`<li>${esc(s)}</li>`).join("");
+  const lis=[...$("#alist").children];
+  if (hold){ $("#pct").textContent=hold; lis.slice(0,Math.floor(hold/100*lis.length)).forEach(l=>l.classList.add("done")); return; }
+  const dur=3200, t0=performance.now();
+  (function tick(now){
+    const p=Math.min(1,(now-t0)/dur); $("#pct").textContent=Math.round(p*100);
+    lis.forEach((l,i)=>l.classList.toggle("done",p>=(i+1)/lis.length-.001));
+    if (p<1) requestAnimationFrame(tick);
+    else setTimeout(()=>{ S.result=computeResult(); track("diagnosis_complete",{hero:S.result.ranked[0],score:S.result.overall,withImage:S.result.has}); renderResult(true); show("s-result"); },350);
+  })(t0);
+}
+
+/* ============================================================
+   Result rendering
+   ============================================================ */
+const mName=k=>t("m_"+k);
+function calloutSVG(R){
+  const items=Object.keys(CALL).map(k=>{
+    const P=CALL[k], p=S.pts? [S.pts[P.idx].x,S.pts[P.idx].y] : P.def;
+    return {k, x:p[0]*600, y:p[1]*800, v:R.m[k]};
+  });
+  const Ls=items.filter(i=>i.x<300).sort((a,b)=>a.y-b.y), Rs=items.filter(i=>i.x>=300).sort((a,b)=>a.y-b.y);
+  const lay=arr=>{ let last=-1e9; arr.forEach(i=>{ i.ly=Math.max(i.y,last+84,90); last=i.ly; }); const over=last-560; if (over>0) arr.forEach(i=>i.ly-=over); };
+  lay(Ls); lay(Rs);
+  let out="";
+  if (S.pts){ out+=`<g fill="rgba(244,228,186,.5)">`; for (let i=0;i<S.pts.length;i+=3) out+=`<circle cx="${(S.pts[i].x*600).toFixed(1)}" cy="${(S.pts[i].y*800).toFixed(1)}" r="1.6"/>`; out+=`</g>`; }
+  [...Ls.map(i=>({...i,side:"L"})),...Rs.map(i=>({...i,side:"R"}))].forEach((i,n)=>{
+    const [col,dk]=panelCol(i.v), label=esc(mName(i.k));
+    const w=Math.min(200,Math.max(128,mName(i.k).length*10.5+30));
+    const lx=i.side==="L"?12:600-12-w, ax=i.side==="L"?lx+w:lx, delay=(.25+n*.18).toFixed(2);
+    out+=`<g class="co" style="animation-delay:${delay}s">
+      <polyline points="${i.x},${i.y} ${(i.x+ax)/2},${i.ly} ${ax},${i.ly}" fill="none" stroke="${col}" stroke-width="2"/>
+      <circle cx="${i.x}" cy="${i.y}" r="9" fill="none" stroke="${col}" stroke-width="2" class="callout-ring"/>
+      <circle cx="${i.x}" cy="${i.y}" r="6" fill="${col}" stroke="#fff" stroke-width="2"/>
+      <rect x="${lx}" y="${i.ly-30}" width="${w}" height="60" rx="14" fill="rgba(255,253,248,.95)" stroke="${dk}" stroke-opacity=".3"/>
+      <text x="${lx+14}" y="${i.ly-5}" fill="#12363A" font-size="18" font-family="Be Vietnam Pro,sans-serif" font-weight="500">${label}</text>
+      <text x="${lx+14}" y="${i.ly+21}" fill="${dk}" font-size="22" font-family="Space Grotesk,monospace" font-weight="700">${i.v}<tspan fill="#7C8E8C" font-size="14">/100</tspan></text>
+    </g>`;
+  });
+  return out;
+}
+function renderResult(animate){
+  const R=S.result, L=S.lang;
+  $("#resImg").src=S.shotURL||FACE_ART;
+  $("#callouts").innerHTML=calloutSVG(R);
+  $("#prioLine").innerHTML=t("prio")(Math.max(1,R.prioCount));
+  $("#verdict").textContent=t("ovl")[R.overall>=80?2:R.overall>=65?1:0];
+  $("#stype").textContent=`${t("typeLab")}: ${T[L].types[R.type]}`;
+  const setG=()=>{ $("#gArc").style.strokeDashoffset=270.2*(1-R.overall/100); };
+  if (animate){
+    $("#gArc").style.strokeDashoffset=270.2; $("#gVal").textContent="0";
+    requestAnimationFrame(()=>requestAnimationFrame(setG));
+    const t0=performance.now(); (function c(n){ const p=Math.min(1,(n-t0)/1400); $("#gVal").textContent=Math.round(R.overall*(1-Math.pow(1-p,3))); if (p<1) requestAnimationFrame(c); })(t0);
+  } else { setG(); $("#gVal").textContent=R.overall; }
+
+  $("#icons").innerHTML=METRICS.map(k=>{ const v=R.m[k], col=colorFor(v);
+    return `<div class="ico" style="color:${col}"><div class="c"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">${ICONS[k]}</svg></div>
+      <div class="n">${esc(mName(k))}</div><div class="s">${v}</div><div class="u"></div></div>`; }).join("");
+  const li=k=>`<li><span>${esc(mName(k))}</span><b style="color:${colorFor(R.m[k])}">${R.m[k]}</b></li>`;
+  $("#strengths").innerHTML=R.strengths.map(li).join("");
+  $("#priorities").innerHTML=R.priorities.map(li).join("");
+
+  const hk=R.ranked[0], hp=PRODUCTS[hk];
+  const why=[...(R.has?[T[L].why.scan(mName(R.heroMetric))]:[]), ...R.whys[hk].map(w=>T[L].why[w])];
+  $("#bestCard").innerHTML=`<div class="glass best">
+    <div class="pimg"><span class="ribbon">${t("best")}</span><div class="mbadge"><div><b>${R.pct[hk]}%</b><small>${t("match")}</small></div></div><img src="${hp.img}" alt=""></div>
+    <div class="body"><div class="pen">${hp.en}</div><h3>${esc(hp.name[L])}</h3><p>${esc(hp.desc[L])}</p>
+      ${why.length?`<div class="why">${why.map(w=>`<div>${esc(w)}</div>`).join("")}</div>`:""}
+      <div class="buy"><a class="btn shopee" href="${CONFIG.shopee}" target="_blank" rel="noopener" data-buy="shopee">${t("buyShopee")}</a><a class="btn tiktok" href="${CONFIG.tiktok}" target="_blank" rel="noopener" data-buy="tiktok">${t("buyTiktok")}</a></div>
+    </div></div>`;
+  $("#others").innerHTML=R.ranked.slice(1).map(k=>{ const p=PRODUCTS[k];
+    return `<div class="glass mini"><div class="pi"><img src="${p.img}" alt=""></div><div><div class="pen">${t("alsoFor")}</div><h3>${esc(p.name[L])}</h3><p>${esc(p.desc[L])}</p></div><div class="m">${R.pct[k]}%</div></div>`; }).join("");
+  document.querySelectorAll("[data-buy]").forEach(a=>a.onclick=()=>track("buy_click",{channel:a.dataset.buy,product:hk}));
+
+  const r=t("r"), face=R.ranked.filter(k=>k!=="body");
+  const thumb=k=>`<div class="rthumb"><img src="${PRODUCTS[k].img}" alt=""></div>`;
+  const step=(n,tt,dd,lx,th)=>`<div class="glass rstep${lx?" lx":""}"><div class="rn">${n}</div><div><div class="rt">${tt}</div><div class="rd">${dd}</div></div>${th||""}</div>`;
+  $("#routine").innerHTML=
+    step(1,r.cleanse,r.cleanseD)+
+    step(2,`${r.treat} · ${r.am}`,esc(PRODUCTS[face[0]].name[L]),1,thumb(face[0]))+
+    step(3,`${r.treat} · ${r.pm}`,esc(face.map(k=>PRODUCTS[k].name[L]).join(" + ")),1,thumb(face[1]))+
+    step(4,r.moist,r.moistD)+
+    step(5,`${r.protect} · ${r.am}`,r.protectD)+
+    step(6,r.body,esc(PRODUCTS.body.name[L]),1,thumb("body"));
+
+  $("#mlist").innerHTML=METRICS.map(k=>{ const v=R.m[k], col=colorFor(v), lv=t("lv")[v>=75?2:v>=55?1:0];
+    return `<div class="mrow"><div class="t"><span>${esc(mName(k))}</span><span><em>${lv}</em><b>${v}</b></span></div><div class="bar"><i data-w="${v}" style="background:${col};width:${animate?0:v}%"></i></div></div>`; }).join("");
+  if (animate) setTimeout(()=>document.querySelectorAll("#mlist .bar i").forEach(b=>b.style.width=b.dataset.w+"%"),300);
+  $("#method").textContent=R.has?t("methodCam"):t("methodQuiz");
+
+  $("#nextCustomer").classList.toggle("hidden",!S.booth);
+  $("#vProd").textContent=hp.name[L];
+  const v=loadVoucher();
+  if (v) showVoucher(v); else { $("#leadCard").classList.remove("hidden"); $("#voucherWrap").classList.add("hidden"); }
+}
+
+/* ============================================================
+   Lead capture + voucher
+   ============================================================ */
+const phoneOK=v=>/^(0|\+?84)(3|5|7|8|9)\d{8}$/.test(v.replace(/[\s.-]/g,""));
+const leadValid=()=>$("#fName").value.trim().length>1 && phoneOK($("#fPhone").value) && $("#fConsent").checked;
+["#fName","#fPhone","#fConsent"].forEach(s=>$(s).addEventListener("input",()=>{
+  $("#getVoucher").disabled=!leadValid();
+  const ph=$("#fPhone").value; $("#phoneErr").style.display=ph.length>=9&&!phoneOK(ph)?"block":"none";
+}));
+function loadVoucher(){ if (S.booth) return null; try{ return JSON.parse(localStorage.getItem("lx_voucher")); }catch(e){ return null; } }
+$("#getVoucher").onclick=()=>{
+  if (!leadValid()) return;
+  const rnd=Array.from(crypto.getRandomValues(new Uint8Array(4)),b=>"ABCDEFGHJKLMNPQRSTUVWXYZ23456789"[b%32]).join("");
+  const v={code:`LXB-${S.result.ranked[0].slice(0,2).toUpperCase()}${CONFIG.voucherPercent}-${rnd}`,hero:S.result.ranked[0],ts:Date.now()};
+  // TODO(production): POST lead + consent + src + result to backend → issue voucher via Zalo OA / ZNS.
+  track("voucher_issued",{code:v.code,hero:v.hero,marketingOptIn:$("#fMkt").checked});
+  if (!S.booth) try{ localStorage.setItem("lx_voucher",JSON.stringify(v)); }catch(e){}
+  showVoucher(v);
+};
+function showVoucher(v){
+  $("#leadCard").classList.add("hidden"); $("#voucherWrap").classList.remove("hidden");
+  $("#vOff").textContent=`-${CONFIG.voucherPercent}%`;
+  $("#vCode").textContent=v.code;
+  const box=$("#vQr"); box.innerHTML="";
+  if (window.qrcode){ const q=qrcode(0,"M"); q.addData(v.code); q.make(); box.innerHTML=q.createImgTag(5,0); } else box.classList.add("hidden");
+  $("#zaloBtn").href=CONFIG.zaloOA; $("#zaloBtn").onclick=()=>track("zalo_follow_click");
+}
+$("#shareBtn").onclick=async()=>{
+  const url=location.origin+location.pathname+"?src=share&lang="+S.lang;
+  const text=t("shareText")(PRODUCTS[S.result.ranked[0]].name[S.lang],S.result.overall);
+  track("share_click");
+  try{
+    if (navigator.share) await navigator.share({title:"LUXBANO AI Skin Lab",text,url});
+    else { await navigator.clipboard.writeText(text+" "+url); $("#shareBtn").textContent=t("copied"); setTimeout(()=>$("#shareBtn").textContent=t("share"),2000); }
+  }catch(e){}
+};
+
+/* ============================================================
+   Flow / booth mode / language
+   ============================================================ */
+function reset(){
+  stopCam(); Object.assign(S,{qi:0,answers:{},pts:null,img:null,shotURL:null,result:null,steady:0});
+  ["#fName","#fPhone"].forEach(s=>$(s).value=""); $("#fConsent").checked=false; $("#fMkt").checked=false; $("#getVoucher").disabled=true;
+  warn(""); camUI("idle"); show("s-home");
+}
+$("#startBtn").onclick=()=>{ track("start"); camUI("idle"); show("s-cam"); loadLandmarker(); };
+$("#restart").onclick=reset;
+$("#nextCustomer").onclick=()=>{ track("booth_next"); reset(); };
+document.querySelectorAll(".langs button").forEach(b=>b.onclick=()=>{ S.lang=b.dataset.lang; try{localStorage.setItem("lx_lang",S.lang);}catch(e){} applyLang(); track("lang",{to:S.lang}); });
+if (S.booth){
+  $("#boothBadge").classList.remove("hidden");
+  let idle; const bump=()=>{ clearTimeout(idle); idle=setTimeout(()=>{ if(!$("#s-home").classList.contains("on")) reset(); },CONFIG.boothIdleResetSec*1000); };
+  ["click","touchstart","keydown"].forEach(e=>document.addEventListener(e,bump,{passive:true})); bump();
+}
+/* theme: brand light by default, dark optional */
+function setTheme(th,save){ document.documentElement.dataset.theme=th; if (save) try{localStorage.setItem("lx_theme",th);}catch(e){} }
+(()=>{ const p=params.get("theme"); let th="light"; if (p==="dark"||p==="light") th=p; else try{ th=localStorage.getItem("lx_theme")||"light"; }catch(e){} setTheme(th,false); })();
+$("#themeBtn").onclick=()=>{ const th=document.documentElement.dataset.theme==="dark"?"light":"dark"; setTheme(th,true); track("theme",{to:th}); };
+applyLang();
+track("landing_view",{ref:document.referrer||null});
+
+/* Demo deep-links for planning screenshots: ?demo=cam|quiz|analyze|result|voucher */
+(function(){
+  const d=params.get("demo"); if (!d) return;
+  if (d==="cam"){
+    show("s-cam"); camUI("live"); video.classList.add("hidden"); shot.classList.remove("hidden");
+    const im=new Image(); im.onload=()=>{ shot.width=600; shot.height=800; shot.getContext("2d").drawImage(im,0,0); }; im.src=FACE_ART;
+    ["#hFace","#hCenter","#hLight"].forEach(s=>$(s).classList.add("ok")); $("#countdown").textContent=t("holdStill")(2);
+    return;
+  }
+  S.answers={age:[1],type:[1],concern:[0,1],sun:[2],ac:[1]};
+  if (d==="quiz"){ S.qi=2; S.answers={age:[1],type:[1],concern:[0]}; renderQ(); show("s-quiz"); return; }
+  if (d==="analyze"){ runAnalysis(62); return; }
+  S.img={ok:true,meanL:150,m:{radiance:78,spots:62,lines:92,pores:88,firm:90,calm:94}};
+  S.result=computeResult(); renderResult(false); show("s-result");
+  if (d==="voucher") showVoucher({code:"LXB-BR15-7KQ2",hero:S.result.ranked[0]});
+})();
+</script>
+</body>
+</html>
